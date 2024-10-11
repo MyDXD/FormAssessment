@@ -538,8 +538,8 @@ export default {
 
 
         const response = await axios.post('http://localhost:8000/form/create', dataToSend);
-
-        if (response.status === 200) {
+        console.log(response)
+        if (response.status === 201) {
           Swal.fire({
             icon: 'success',
             title: 'สำเร็จ',
