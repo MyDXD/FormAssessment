@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+  // เช็คว่า `forms` มีข้อมูลหรือไม่
+  if forms.length > 0
+    h2 ฟอร์มทั้งหมด
+    ul
+      each form in forms
+        li
+          h3= form.form_name
+          p= form.description
+          
+          // แสดงรายละเอียดของฟิลด์
+          ul
+            each field in form.fields
+              li
+                strong= field.field_name
+                | : 
+                
+                // เช็คว่า field มี subfields หรือไม่ (กรณี field_type เป็น 'group')
+                if field.subfields && field.subfields.length > 0
+                  // ถ้ามี subfields ให้แสดง subfields ภายในฟิลด์นี้
+                  ul
+                    each subfield in field.subfields
+                      li
+                        strong= subfield.field_name
+                        | : 
+                        span= subfield.value || 'ยังไม่มีข้อมูล'
+                else
+                  // ถ้าไม่มี subfields แสดงค่า value ของฟิลด์
+                  span= field.value || 'ยังไม่มีข้อมูล'
+  else
+    p ยังไม่มีฟอร์มใดๆ ในระบบ
