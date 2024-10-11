@@ -474,10 +474,10 @@ export default {
     async submitEvaluation() {
       try {
         const dataToSend = {
-          generalData: this.generalData,
-          groupWork: this.groupWork,
-          evaluation: this.evaluation,
-          note: this.note,
+          // generalData: this.generalData,
+          // groupWork: this.groupWork,
+          // evaluation: this.evaluation,
+          // note: this.note,
           //datanew
           prefix: this.generalData.prefix,
           firstName: this.generalData.name,
@@ -506,7 +506,7 @@ export default {
           personalLeave: this.groupWork.leaveBusinessDays,
           withoutLeave: this.groupWork.absentWithoutLeaveDays,
           workPercentage: this.groupWork.actualWorkPercentage,
-          withoutNotification: this.groupWork.withoutNotification,
+          withoutNotification: this.groupWork.noDutyWithoutNotice,
 
           topics: [
                 {
@@ -532,7 +532,7 @@ export default {
                 },
           ],
 
-          report: "ควรเพิ่มความมั่นใจในการสื่อสารกับผู้ป่วย"
+          report:this.note
         };
         console.log("ข้อมูลที่ส่งไป", dataToSend);
 

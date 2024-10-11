@@ -2,6 +2,7 @@ const MedicalPerformanceForm = require('../../models/form/medicalPerformanceForm
 
 // สร้างแบบฟอร์มใหม่
 exports.createForm = async (formData) => {
+  console.log("back",formData);
   const form = new MedicalPerformanceForm(formData);
   return await form.save();
 };
