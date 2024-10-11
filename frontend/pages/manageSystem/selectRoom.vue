@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>แบบประเมินการปฎิบัติงานของแพทย์ตามโครงการเพิ่มพูนทักษะของเเพทย์สภา</h1>
-    <!-- ข้อมูลทั่วไป (File1) -->
     <v-card class="custom-card">
       <h2>ข้อมูลทั่วไป</h2>
       <v-form>
@@ -79,7 +78,7 @@
       </v-form>
     </v-card>
 
-    <!-- กลุ่มงาน (File2) -->
+    <!-- กลุ่มงาน -->
     <v-card class="custom-card">
       <v-row>
         <h2>กลุ่มงาน</h2>
@@ -108,7 +107,7 @@
             <v-col cols="auto">
               <v-radio label="โรงพยาบาลชุมชน (ชื่อ)" value="โรงพยาบาลชุมชน"></v-radio>
             </v-col>
-            <v-col cols="auto"  v-if="groupWork.department === 'โรงพยาบาลชุมชน'">
+            <v-col cols="auto" v-if="groupWork.department === 'โรงพยาบาลชุมชน'">
               <v-text-field v-model="groupWork.hospitalName" label="ชื่อโรงพยาบาล"></v-text-field>
             </v-col>
             <v-col cols="auto" v-if="groupWork.department === 'โรงพยาบาลชุมชน'">
@@ -127,7 +126,6 @@
           </v-row>
         </v-radio-group>
 
-        <!-- กำหนดการปฎิบัติงาน -->
         <v-row>
           <!-- วันที่เริ่มต้น -->
           <v-col cols="12" md="4">
@@ -182,7 +180,6 @@
               v-model="groupWork.absentWithoutLeaveDays"></v-text-field>
           </v-col>
         </v-row>
-        <!-- <v-row> -->
         <v-col cols="6">
           <v-text-field label="ระยะเวลาปฎิบัติงานจริงร้อยละ" outlined
             v-model="groupWork.actualWorkPercentage"></v-text-field>
@@ -191,11 +188,11 @@
           <v-text-field label="ไม่อยู่เวรโดยไม่แจ้ง (ครั้ง)" outlined
             v-model="groupWork.noDutyWithoutNotice"></v-text-field>
         </v-col>
-        <!-- </v-row> -->
       </v-row>
     </v-card>
     <h2>การประเมินผล (ดูเกณฑ์ด้านหลัง)</h2>
-    <!-- ทักษะและการประเมิน (File3) -->
+
+    <!-- ทักษะและการประเมิน -->
     <v-card class="custom-card">
       <v-form>
         <!-- ทักษะทางคลินิก -->
@@ -356,9 +353,9 @@ export default {
   data() {
     return {
       // ข้อมูลทั่วไป
-      startMenu: false,
-      endMenu: false,
       generalData: {
+        startMenu: false,
+        endMenu: false,
         prefix: "",
         name: "",
         lastname: "",
@@ -369,13 +366,13 @@ export default {
         startDate: '',
         endDate: '',
         durationDisplay: '',
+        years: [],
       },
-      years: [],
 
       // กลุ่มงาน
-      startMenu: false,
-      endMenu: false,
       groupWork: {
+        startMenu: false,
+        endMenu: false,
         department: "",
         hospitalName: '',
         hospitalSize: '',
@@ -406,12 +403,10 @@ export default {
     };
   },
   computed: {
-    // คำนวณระยะเวลาสำหรับข้อมูลทั่วไป
     generalDuration() {
       return this.calculateDuration(this.generalData.startDate, this.generalData.endDate);
     },
 
-    // คำนวณระยะเวลาสำหรับกลุ่มงาน
     groupWorkDuration() {
       return this.calculateDuration(this.groupWork.startDate, this.groupWork.endDate);
     },
@@ -479,23 +474,75 @@ export default {
       return Array.from({ length: currentYear - startYear + 1 }, (_, i) => (currentYear - i).toString());
     },
 
-    // ฟังก์ชันสำหรับการส่งข้อมูลการประเมิน
     async submitEvaluation() {
       try {
-        // รวบรวมข้อมูลทั้งหมด
         const dataToSend = {
           generalData: this.generalData,
           groupWork: this.groupWork,
           evaluation: this.evaluation,
           note: this.note,
-        };
-        console.log("ข้อมูลที่ส่งไป",dataToSend);
-        
+          //datanew
+          prefix: this.generalData.prefix,
+          firstName: this.generalData.name,
+          lastName: this.generalData.lastname,
+          education: this.generalData.graduationPlace,
+          graduationYear: this.generalData.year,
+          hospital: this.generalData.hospital,
+          province: this.generalData.province,
+          scheduleWork: this.generalData.durationDisplay,
+          startDate1: this.generalData.startDate,
+          endDate1: this.generalData.endDate,
 
-        // ส่งข้อมูลไปยัง API
+          departmentInfo: {
+            department: this.groupWork.department,
+            details: {
+              hospitalName: this.groupWork.hospitalName,
+              bedSize: this.groupWork.hospitalSize
+            }
+          },
+
+          periodWork: this.groupWork.durationDisplay,
+          startDate2: this.groupWork.startDate,
+          endDate2: this.groupWork.endDate,
+
+          sickLeave: this.groupWork.leaveSickDays,
+          personalLeave: this.groupWork.leaveBusinessDays,
+          withoutLeave: this.groupWork.absentWithoutLeaveDays,
+          workPercentage: this.groupWork.actualWorkPercentage,
+          withoutNotification: this.groupWork.withoutNotification,
+
+          topics: [
+            {
+              topicName: "ทักษะทางคลินิก",
+              items: [
+                {
+                  itemName: "ความรู้พื้นฐาน",
+                  score: this.evaluation.knowledge
+                },
+                {
+                  itemName: "ทักษะการรวมรวมข้อมูล",
+                  score: this.evaluation.knowledge
+                },
+              ]
+            },
+            {
+              topicName: "ทักษะทางหัตถการ",
+              items: [
+                {
+                  itemName: "การตรวจโดยใช้เครื่องมือ",
+                  score: 3
+                }
+              ]
+            }
+          ],
+
+          report: "ควรเพิ่มความมั่นใจในการสื่อสารกับผู้ป่วย"
+        };
+        console.log("ข้อมูลที่ส่งไป", dataToSend);
+
+
         const response = await axios.post('https://your-api-endpoint.com/submit', dataToSend);
 
-        // แสดงข้อความสำเร็จเมื่อส่งข้อมูลเสร็จสิ้น
         if (response.status === 200) {
           Swal.fire({
             icon: 'success',
@@ -510,7 +557,6 @@ export default {
           });
         }
       } catch (error) {
-        // แสดงข้อความเมื่อเกิดข้อผิดพลาด
         Swal.fire({
           icon: 'error',
           title: 'เกิดข้อผิดพลาด',
@@ -531,7 +577,6 @@ export default {
   margin: 20px auto;
 }
 
-/* เพิ่ม margin ล่างเพื่อเว้นระยะห่างระหว่าง checkbox ในกลุ่มงาน */
 .group-work .v-col {
   margin-bottom: 10px;
 }
