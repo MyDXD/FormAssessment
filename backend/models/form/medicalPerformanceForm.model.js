@@ -50,12 +50,9 @@ const medicalPerformanceSchema = new Schema(
       },
     ],
 
-    improvements: { type: String }, // ข้อควรปรับปรุง
+    report: { type: String }, // ข้อควรปรับปรุง
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model(
-  "MedicalPerformanceForm",
-  medicalPerformanceSchema
-);
+module.exports = mongoose.model("MedicalPerformanceForm",medicalPerformanceSchema);
