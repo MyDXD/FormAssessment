@@ -6,6 +6,7 @@ var logger = require("morgan");
 const connectDB = require("./config/db");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+require('dotenv').config()
 
 var app = express();
 
