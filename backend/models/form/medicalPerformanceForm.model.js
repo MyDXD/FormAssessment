@@ -40,14 +40,8 @@ const medicalPerformanceSchema = new Schema(
     //ส่วนที่ 3 การประเมินผล
     topics: [
       {
-        topicName: { type: String, required: true }, // ชื่อหัวข้อย่อย
-        items: [
-          {
-            itemName: { type: String, required: true }, // ชื่อหัวข้อย่อยในหัวข้อหลัก
-            score: { type: String, enum: [5, 4, 3], required: true }, // การให้คะแนน
-          },
-        ],
-      },
+        score: { type: Number, required: true }, // ชื่อหัวข้อย่อย
+      }
     ],
 
     report: { type: String }, // ข้อควรปรับปรุง
