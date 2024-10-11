@@ -101,7 +101,6 @@
           <v-col cols="12" md="2">
             <v-radio label="เวชศาสตร์ฉุกเฉิน" value="เวชศาสตร์ฉุกเฉิน"></v-radio>
           </v-col>
-
           <!-- โรงพยาบาลชุมชน -->
           <v-row no-gutters align="center">
             <v-col cols="auto">
@@ -114,7 +113,6 @@
               <v-text-field v-model="groupWork.hospitalSize" label="ขนาด (เตียง)"></v-text-field>
             </v-col>
           </v-row>
-
           <!-- วิชาเลือก -->
           <v-row no-gutters>
             <v-col cols="auto">
@@ -473,7 +471,6 @@ export default {
       const startYear = 1900 + 543;
       return Array.from({ length: currentYear - startYear + 1 }, (_, i) => (currentYear - i).toString());
     },
-
     async submitEvaluation() {
       try {
         const dataToSend = {
@@ -512,28 +509,27 @@ export default {
           withoutNotification: this.groupWork.withoutNotification,
 
           topics: [
-            {
-              topicName: "ทักษะทางคลินิก",
-              items: [
                 {
-                  itemName: "ความรู้พื้นฐาน",
                   score: this.evaluation.knowledge
                 },
                 {
-                  itemName: "ทักษะการรวมรวมข้อมูล",
-                  score: this.evaluation.knowledge
+                  score: this.evaluation.laboratory
                 },
-              ]
-            },
-            {
-              topicName: "ทักษะทางหัตถการ",
-              items: [
                 {
-                  itemName: "การตรวจโดยใช้เครื่องมือ",
-                  score: 3
-                }
-              ]
-            }
+                  score: this.evaluation.analysis
+                },
+                {
+                  score: this.evaluation.proceduralSkills
+                },
+                {
+                  score: this.evaluation.ethics
+                },
+                {
+                  score: this.evaluation.communication
+                },
+                {
+                  score: this.evaluation.continuousLearning
+                },
           ],
 
           report: "ควรเพิ่มความมั่นใจในการสื่อสารกับผู้ป่วย"
@@ -541,7 +537,7 @@ export default {
         console.log("ข้อมูลที่ส่งไป", dataToSend);
 
 
-        const response = await axios.post('https://your-api-endpoint.com/submit', dataToSend);
+        const response = await axios.post('http://localhost:8000/form/create', dataToSend);
 
         if (response.status === 200) {
           Swal.fire({
