@@ -4,15 +4,15 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _8fd15eb6 = () => interopDefault(import('../pages/inspire.vue' /* webpackChunkName: "pages/inspire" */))
-const _6f345ad7 = () => interopDefault(import('../pages/test.vue' /* webpackChunkName: "pages/test" */))
-const _11f07d06 = () => interopDefault(import('../pages/manageSystem/selectCourse.vue' /* webpackChunkName: "pages/manageSystem/selectCourse" */))
-const _7bff4be0 = () => interopDefault(import('../pages/manageSystem/selectDate.vue' /* webpackChunkName: "pages/manageSystem/selectDate" */))
-const _68185756 = () => interopDefault(import('../pages/manageSystem/selectEmp.vue' /* webpackChunkName: "pages/manageSystem/selectEmp" */))
-const _4cd08cbd = () => interopDefault(import('../pages/manageSystem/selectRoom.vue' /* webpackChunkName: "pages/manageSystem/selectRoom" */))
-const _55ba27a0 = () => interopDefault(import('../pages/teacher/score.vue' /* webpackChunkName: "pages/teacher/score" */))
-const _5cdc4076 = () => interopDefault(import('../pages/teacher/testNo.vue' /* webpackChunkName: "pages/teacher/testNo" */))
-const _dfa68946 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _1f46bb26 = () => interopDefault(import('..\\pages\\inspire.vue' /* webpackChunkName: "pages/inspire" */))
+const _66683014 = () => interopDefault(import('..\\pages\\test.vue' /* webpackChunkName: "pages/test" */))
+const _176c0e8f = () => interopDefault(import('..\\pages\\manageSystem\\selectCourse.vue' /* webpackChunkName: "pages/manageSystem/selectCourse" */))
+const _924e78bc = () => interopDefault(import('..\\pages\\manageSystem\\selectDate.vue' /* webpackChunkName: "pages/manageSystem/selectDate" */))
+const _04a37384 = () => interopDefault(import('..\\pages\\manageSystem\\selectEmp.vue' /* webpackChunkName: "pages/manageSystem/selectEmp" */))
+const _41a8f64f = () => interopDefault(import('..\\pages\\manageSystem\\selectRoom.vue' /* webpackChunkName: "pages/manageSystem/selectRoom" */))
+const _73ed4a54 = () => interopDefault(import('..\\pages\\teacher\\score.vue' /* webpackChunkName: "pages/teacher/score" */))
+const _0c134621 = () => interopDefault(import('..\\pages\\teacher\\testNo.vue' /* webpackChunkName: "pages/teacher/testNo" */))
+const _34f25bc4 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
 
@@ -27,39 +27,39 @@ export const routerOptions = {
 
   routes: [{
     path: "/inspire",
-    component: _8fd15eb6,
+    component: _1f46bb26,
     name: "inspire"
   }, {
     path: "/test",
-    component: _6f345ad7,
+    component: _66683014,
     name: "test"
   }, {
     path: "/manageSystem/selectCourse",
-    component: _11f07d06,
+    component: _176c0e8f,
     name: "manageSystem-selectCourse"
   }, {
     path: "/manageSystem/selectDate",
-    component: _7bff4be0,
+    component: _924e78bc,
     name: "manageSystem-selectDate"
   }, {
     path: "/manageSystem/selectEmp",
-    component: _68185756,
+    component: _04a37384,
     name: "manageSystem-selectEmp"
   }, {
     path: "/manageSystem/selectRoom",
-    component: _4cd08cbd,
+    component: _41a8f64f,
     name: "manageSystem-selectRoom"
   }, {
     path: "/teacher/score",
-    component: _55ba27a0,
+    component: _73ed4a54,
     name: "teacher-score"
   }, {
     path: "/teacher/testNo",
-    component: _5cdc4076,
+    component: _0c134621,
     name: "teacher-testNo"
   }, {
     path: "/",
-    component: _dfa68946,
+    component: _34f25bc4,
     name: "index"
   }],
 
