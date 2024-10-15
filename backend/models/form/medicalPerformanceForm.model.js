@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const medicalPerformanceSchema = new Schema(
   {
     //ส่วนที่ 1 ข้อมูลทั่วไป
+    title: { type: String, required: true }, // คำนำหน้า
     prefix: { type: String, required: true }, // คำนำหน้า
     firstName: { type: String, required: true }, //ชื่อ
     lastName: { type: String, required: true }, //นามสกุล
@@ -45,7 +46,7 @@ const medicalPerformanceSchema = new Schema(
     ],
 
     report: { type: String }, // ข้อควรปรับปรุง
-    
+
     status: {
       type: String,
       enum : ['new','success'],
