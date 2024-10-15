@@ -20,10 +20,8 @@ exports.createForm = async (formData) => {
 };
 
 // ดึงข้อมูลแบบฟอร์มทั้งหมด
-exports.getForms = async (limit, offset) => {
+exports.getForms = async () => {
   return await MedicalPerformanceForm.find()
-  .limit(limit)   // จำกัดจำนวนข้อมูลที่ดึงมา
-  .skip(offset);  // ข้ามข้อมูลตามค่า offset ที่ระบุ
 };
 
 // ดึงข้อมูลแบบฟอร์มที่เลือก ตาม id
