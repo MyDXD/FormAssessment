@@ -11,15 +11,26 @@ exports.createForm = async (formData) => {
 exports.getForms = async () => {
   return await MedicalPerformanceForm.find();
 };
-// ดึงข้อมูลแบบฟอร์มทั้งหมด
+
+
+// ดึงข้อมูลแบบฟอร์มที่เลือก ตาม id
 exports.getFormsById = async (Id) => {
   try {
-    // Find the form by ID in the database
     const form = await MedicalPerformanceForm.findById(Id);
     
-    // Return the form if found
     return form;
   } catch (error) {
     throw new Error('Error fetching form by ID');
+  }
+};
+
+// อัปเดตข้อมูลแบบฟอร์มตาม id
+exports.updateFormById = async (Id, updatedData) => {
+  try {
+    const updatedForm = await MedicalPerformanceForm.findByIdAndUpdate(Id, updatedData, { new: true });
+
+    return updatedForm;
+  } catch (error) {
+    throw new Error('Error updating form by ID');
   }
 };

@@ -4,7 +4,6 @@ const formService = require('./formService');
 exports.createForm = async (req, res) => {
   try {
     const form = await formService.createForm(req.body);
-    console.log("form",form)
     res.status(201).json({ message: 'Form created successfully', form });
   } catch (error) {
     res.status(400).json({ error: 'Error creating form', details: error });
@@ -21,15 +20,14 @@ exports.getForms = async (req, res) => {
   }
 };
 
+
+// ฟังก์ชันสำหรับดึงแบบฟอร์มตาม id
 exports.getFormsById = async (req, res) => {
   try {
-    // Correctly retrieve formId from request parameters
     const formId = req.params.id;
     
-    // Call the service to get the form by ID
     const form = await formService.getFormsById(formId);
     
-    // Return the form data as JSON
     if (form) {
       res.status(200).json(form);
     } else {
@@ -38,5 +36,24 @@ exports.getFormsById = async (req, res) => {
   } catch (error) {
     // Error handling
     res.status(500).json({ error: 'Error fetching form', details: error.message });
+  }
+};
+
+// ฟังก์ชันสำหรับอัปเดตแบบฟอร์มตาม id
+exports.updateFormById = async (req, res) => {
+  try {
+    const formId = req.params.id;
+    const updatedData = req.body; // ข้อมูลที่ต้องการอัปเดตส่งมาจาก request body
+
+    const updatedForm = await formService.updateFormById(formId, updatedData);
+
+    if (updatedForm) {
+      res.status(200).json(updatedForm);
+    } else {
+      res.status(404).json({ message: 'Form not found' });
+    }
+  } catch (error) {
+    // Error handling
+    res.status(500).json({ error: 'Error updating form', details: error.message });
   }
 };

@@ -9,4 +9,8 @@ router.post('/create', formController.createForm);
 router.get('/', formController.getForms);
 router.get('/:id', formController.getFormsById);
 
+// แก้ไขฟอร์ม
+router.put('/:id', formController.updateFormById);
+
+
 module.exports = router;
