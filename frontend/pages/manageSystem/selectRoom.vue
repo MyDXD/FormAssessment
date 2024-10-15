@@ -114,7 +114,7 @@
             </v-col>
           </v-row>
           <!-- วิชาเลือก -->
-          <v-row no-gutters>
+          <v-row no-gutters align="center">
             <v-col cols="auto">
               <v-radio label="วิชาเลือก" value="วิชาเลือก"></v-radio>
             </v-col>
@@ -338,6 +338,7 @@
     <v-row>
       <v-col cols="12" class="text-center">
         <v-btn @click="submitEvaluation" color="primary">ส่งการประเมิน</v-btn>
+        <v-btn @click="updateEvaluation" color="primary">อัพเดตประเมิน</v-btn>
         <v-btn color="primary" @click="getItem">Fetch Item</v-btn>
       </v-col>
     </v-row>
@@ -399,7 +400,8 @@ export default {
 
       // Footer (บันทึกเพิ่มเติม)
       note: "",
-      item: null
+      item: null,
+      Id : "670dd9e468dfb0d078b67a6e"
     };
   },
   computed: {
@@ -425,8 +427,44 @@ export default {
   methods: {
     async getItem() {
       try {
-        const response = await axios.get('https://api.example.com/item/1');
+        const response = await axios.get(`http://localhost:8000/form/${this.Id}`);
         this.item = response.data;
+        console.log("dataget", this.item);
+        this.generalData.prefix = this.item.prefix
+        this.generalData.name = this.item.firstName
+        this.generalData.lastname = this.item.lastName
+        this.generalData.graduationPlace = this.item.education
+        this.generalData.year = this.item.graduationYear
+        this.generalData.hospital = this.item.hospital
+        this.generalData.province = this.item.province
+        this.generalData.durationDisplay = this.item.scheduleWork
+        this.generalData.startDate = this.item.startDate1
+        this.generalData.endDate = this.item.endDate1
+
+        this.groupWork.department = this.item.departmentInfo.department
+        this.groupWork.hospitalName = this.item.departmentInfo.details.hospitalName
+        this.groupWork.hospitalSize = this.item.departmentInfo.details.bedSize
+        this.groupWork.selectedSubject = this.item.departmentInfo.details.electiveSubject
+        this.groupWork.durationDisplay = this.item.periodWork
+        this.groupWork.startDate = this.item.startDate2
+        this.groupWork.endDate = this.item.endDate2
+        this.groupWork.leaveSickDays = this.item.sickLeave
+        this.groupWork.leaveBusinessDays = this.item.personalLeave
+        this.groupWork.absentWithoutLeaveDays = this.item.withoutLeave
+        this.groupWork.actualWorkPercentage = this.item.workPercentage
+        this.groupWork.noDutyWithoutNotice = this.item.withoutNotification
+
+        this.evaluation.knowledge = this.item.topics[0].score;
+        this.evaluation.laboratory = this.item.topics[1].score;
+        this.evaluation.analysis = this.item.topics[2].score;
+        this.evaluation.proceduralSkills = this.item.topics[3].score;
+        this.evaluation.ethics = this.item.topics[4].score;
+        this.evaluation.communication = this.item.topics[5].score;
+        this.evaluation.continuousLearning = this.item.topics[6].score;
+
+        this.note = this.item.report;
+
+        
       } catch (error) {
         console.error('Error fetching item:', error);
       }
@@ -501,7 +539,8 @@ export default {
             department: this.groupWork.department,
             details: {
               hospitalName: this.groupWork.hospitalName,
-              bedSize: this.groupWork.hospitalSize
+              bedSize: this.groupWork.hospitalSize,
+              electiveSubject: this.groupWork.selectedSubject,
             }
           },
           periodWork: this.groupWork.durationDisplay,
@@ -513,29 +552,29 @@ export default {
           workPercentage: this.groupWork.actualWorkPercentage,
           withoutNotification: this.groupWork.noDutyWithoutNotice,
           topics: [
-                {
-                  score: this.evaluation.knowledge
-                },
-                {
-                  score: this.evaluation.laboratory
-                },
-                {
-                  score: this.evaluation.analysis
-                },
-                {
-                  score: this.evaluation.proceduralSkills
-                },
-                {
-                  score: this.evaluation.ethics
-                },
-                {
-                  score: this.evaluation.communication
-                },
-                {
-                  score: this.evaluation.continuousLearning
-                },
+            {
+              score: this.evaluation.knowledge
+            },
+            {
+              score: this.evaluation.laboratory
+            },
+            {
+              score: this.evaluation.analysis
+            },
+            {
+              score: this.evaluation.proceduralSkills
+            },
+            {
+              score: this.evaluation.ethics
+            },
+            {
+              score: this.evaluation.communication
+            },
+            {
+              score: this.evaluation.continuousLearning
+            },
           ],
-          report:this.note
+          report: this.note
         };
         console.log("ข้อมูลที่ส่งไป", dataToSend);
         const response = await axios.post('http://localhost:8000/form/create', dataToSend);
@@ -545,6 +584,86 @@ export default {
             icon: 'success',
             title: 'สำเร็จ',
             text: 'การประเมินถูกส่งเรียบร้อยแล้ว!',
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: 'เกิดข้อผิดพลาดในการส่งข้อมูล โปรดลองอีกครั้ง!',
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'เกิดข้อผิดพลาด',
+          text: `ไม่สามารถส่งข้อมูลได้: ${error.message}`,
+        });
+      }
+    },
+    async updateEvaluation() {
+      try {
+        const dataToSend = {
+          prefix: this.generalData.prefix,
+          firstName: this.generalData.name,
+          lastName: this.generalData.lastname,
+          education: this.generalData.graduationPlace,
+          graduationYear: this.generalData.year,
+          hospital: this.generalData.hospital,
+          province: this.generalData.province,
+          scheduleWork: this.generalData.durationDisplay,
+          startDate1: this.generalData.startDate,
+          endDate1: this.generalData.endDate,
+
+          departmentInfo: {
+            department: this.groupWork.department,
+            details: {
+              hospitalName: this.groupWork.hospitalName,
+              bedSize: this.groupWork.hospitalSize,
+              electiveSubject: this.groupWork.selectedSubject,
+            }
+          },
+          periodWork: this.groupWork.durationDisplay,
+          startDate2: this.groupWork.startDate,
+          endDate2: this.groupWork.endDate,
+          sickLeave: this.groupWork.leaveSickDays,
+          personalLeave: this.groupWork.leaveBusinessDays,
+          withoutLeave: this.groupWork.absentWithoutLeaveDays,
+          workPercentage: this.groupWork.actualWorkPercentage,
+          withoutNotification: this.groupWork.noDutyWithoutNotice,
+          topics: [
+            {
+              score: this.evaluation.knowledge
+            },
+            {
+              score: this.evaluation.laboratory
+            },
+            {
+              score: this.evaluation.analysis
+            },
+            {
+              score: this.evaluation.proceduralSkills
+            },
+            {
+              score: this.evaluation.ethics
+            },
+            {
+              score: this.evaluation.communication
+            },
+            {
+              score: this.evaluation.continuousLearning
+            },
+          ],
+          report: this.note
+        };
+        console.log("ข้อมูลที่อัพเดตไป", dataToSend);
+        
+        const response = await axios.put(`http://localhost:8000/form/${this.Id}`, dataToSend);
+        console.log(response)
+        if (response.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: 'การประเมินถูกอัพเดตเรียบร้อยแล้ว!',
           });
         } else {
           Swal.fire({

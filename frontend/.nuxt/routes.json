@@ -2,64 +2,55 @@
   {
     "name": "inspire",
     "path": "/inspire",
-    "component": "C:\\\\Users\\\\NiTro\\\\Documents\\\\GitHub\\\\FormAssessment\\\\frontend\\\\pages\\\\inspire.vue",
-    "chunkName": "pages/inspire",
-    "_name": "_1f46bb26"
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/inspire.vue",
+    "chunkName": "pages/inspire"
   },
   {
     "name": "test",
     "path": "/test",
-    "component": "C:\\\\Users\\\\NiTro\\\\Documents\\\\GitHub\\\\FormAssessment\\\\frontend\\\\pages\\\\test.vue",
-    "chunkName": "pages/test",
-    "_name": "_66683014"
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/test.vue",
+    "chunkName": "pages/test"
   },
   {
     "name": "manageSystem-selectCourse",
     "path": "/manageSystem/selectCourse",
-    "component": "C:\\\\Users\\\\NiTro\\\\Documents\\\\GitHub\\\\FormAssessment\\\\frontend\\\\pages\\\\manageSystem\\\\selectCourse.vue",
-    "chunkName": "pages/manageSystem/selectCourse",
-    "_name": "_176c0e8f"
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/selectCourse.vue",
+    "chunkName": "pages/manageSystem/selectCourse"
   },
   {
     "name": "manageSystem-selectDate",
     "path": "/manageSystem/selectDate",
-    "component": "C:\\\\Users\\\\NiTro\\\\Documents\\\\GitHub\\\\FormAssessment\\\\frontend\\\\pages\\\\manageSystem\\\\selectDate.vue",
-    "chunkName": "pages/manageSystem/selectDate",
-    "_name": "_924e78bc"
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/selectDate.vue",
+    "chunkName": "pages/manageSystem/selectDate"
   },
   {
     "name": "manageSystem-selectEmp",
     "path": "/manageSystem/selectEmp",
-    "component": "C:\\\\Users\\\\NiTro\\\\Documents\\\\GitHub\\\\FormAssessment\\\\frontend\\\\pages\\\\manageSystem\\\\selectEmp.vue",
-    "chunkName": "pages/manageSystem/selectEmp",
-    "_name": "_04a37384"
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/selectEmp.vue",
+    "chunkName": "pages/manageSystem/selectEmp"
   },
   {
     "name": "manageSystem-selectRoom",
     "path": "/manageSystem/selectRoom",
-    "component": "C:\\\\Users\\\\NiTro\\\\Documents\\\\GitHub\\\\FormAssessment\\\\frontend\\\\pages\\\\manageSystem\\\\selectRoom.vue",
-    "chunkName": "pages/manageSystem/selectRoom",
-    "_name": "_41a8f64f"
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/selectRoom.vue",
+    "chunkName": "pages/manageSystem/selectRoom"
   },
   {
     "name": "teacher-score",
     "path": "/teacher/score",
-    "component": "C:\\\\Users\\\\NiTro\\\\Documents\\\\GitHub\\\\FormAssessment\\\\frontend\\\\pages\\\\teacher\\\\score.vue",
-    "chunkName": "pages/teacher/score",
-    "_name": "_73ed4a54"
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/teacher/score.vue",
+    "chunkName": "pages/teacher/score"
   },
   {
     "name": "teacher-testNo",
     "path": "/teacher/testNo",
-    "component": "C:\\\\Users\\\\NiTro\\\\Documents\\\\GitHub\\\\FormAssessment\\\\frontend\\\\pages\\\\teacher\\\\testNo.vue",
-    "chunkName": "pages/teacher/testNo",
-    "_name": "_0c134621"
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/teacher/testNo.vue",
+    "chunkName": "pages/teacher/testNo"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "C:\\\\Users\\\\NiTro\\\\Documents\\\\GitHub\\\\FormAssessment\\\\frontend\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_34f25bc4"
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/index.vue",
+    "chunkName": "pages/index"
   }
 ]

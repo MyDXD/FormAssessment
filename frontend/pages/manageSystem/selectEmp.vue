@@ -14,16 +14,14 @@
             <v-row no-gutters align="center">
               <!-- ช่องกรอกสำหรับระบุผู้ประเมิน -->
               <v-col cols="3">
-                <v-text-field v-model="otherEvaluator" label="ระบุผู้ประเมิน" outlined dense></v-text-field>
+                <v-text-field v-model="otherEvaluator" label="ชื่อผู้ประเมิน" outlined dense></v-text-field>
               </v-col>
 
               <!-- กลุ่มของ radio buttons -->
               <v-col cols="9">
                 <v-radio-group v-model="evaluatorType" row>
                   <v-radio label="อาจารย์" value="อาจารย์"></v-radio>
-                  <v-radio label="แพทย์ประจำบ้าน" value="แพทย์ประจำบ้าน"></v-radio>
-                  <v-radio label="แพทย์เพิ่มพูนทักษะ" value="แพทย์เพิ่มพูนทักษะ"></v-radio>
-                  <v-radio label="พยาบาล" value="พยาบาล"></v-radio>
+                  <v-radio label="แพทย์ประจำบ้าน" value="แพทย์ประจำบ้าน/แพทย์พี่เลี้ยง"></v-radio>                  <v-radio label="พยาบาล" value="พยาบาล"></v-radio>
                   <v-radio label="อื่นๆระบุ" value="อื่นๆ"></v-radio>
 
                   <!-- ช่องกรอกข้อความเมื่อเลือก "อื่นๆ" -->
@@ -32,8 +30,7 @@
                 </v-radio-group>
               </v-col>
             </v-row>
-
-
+            
             <v-row no-gutters>
               <v-col cols="2">
                 <h3>สถานที่</h3>
@@ -109,7 +106,6 @@
 
                   <!-- คอลัมน์ หมายเหตุ -->
                   <td>
-                    <!-- ตรวจสอบว่า item.showNote เป็น true หรือไม่ -->
                     <span v-if="item.showNote">ต้องไม่ต่ำกว่า average</span>
                   </td>
                 </tr>

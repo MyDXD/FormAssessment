@@ -5,15 +5,15 @@ import ClientOnly from 'vue-client-only'
 import NoSsr from 'vue-no-ssr'
 import { createRouter } from './router.js'
 import NuxtChild from './components/nuxt-child.js'
-import NuxtError from '..\\layouts\\error.vue'
+import NuxtError from '../layouts/error.vue'
 import Nuxt from './components/nuxt.js'
 import App from './App.js'
 import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_10e7f2ae from 'nuxt_plugin_plugin_10e7f2ae' // Source: .\\components\\plugin.js (mode: 'all')
-import nuxt_plugin_plugin_1c1c5deb from 'nuxt_plugin_plugin_1c1c5deb' // Source: .\\vuetify\\plugin.js (mode: 'all')
+import nuxt_plugin_plugin_00c475ea from 'nuxt_plugin_plugin_00c475ea' // Source: ./components/plugin.js (mode: 'all')
+import nuxt_plugin_plugin_774f92c3 from 'nuxt_plugin_plugin_774f92c3' // Source: ./vuetify/plugin.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -181,12 +181,12 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_10e7f2ae === 'function') {
-    await nuxt_plugin_plugin_10e7f2ae(app.context, inject)
+  if (typeof nuxt_plugin_plugin_00c475ea === 'function') {
+    await nuxt_plugin_plugin_00c475ea(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_plugin_1c1c5deb === 'function') {
-    await nuxt_plugin_plugin_1c1c5deb(app.context, inject)
+  if (typeof nuxt_plugin_plugin_774f92c3 === 'function') {
+    await nuxt_plugin_plugin_774f92c3(app.context, inject)
   }
 
   // Lock enablePreview in context
