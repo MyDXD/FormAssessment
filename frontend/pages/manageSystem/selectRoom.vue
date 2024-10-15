@@ -80,8 +80,8 @@
 
     <!-- กลุ่มงาน -->
     <v-card class="custom-card">
+      <h2>กลุ่มงาน</h2>
       <v-row>
-        <h2>กลุ่มงาน</h2>
         <v-radio-group v-model="groupWork.department" row>
           <v-col cols="12" md="2">
             <v-radio label="อายุรศาสตร์" value="อายุรศาสตร์"></v-radio>
@@ -338,6 +338,7 @@
     <v-row>
       <v-col cols="12" class="text-center">
         <v-btn @click="submitEvaluation" color="primary">ส่งการประเมิน</v-btn>
+        <v-btn color="primary" @click="getItem">Fetch Item</v-btn>
       </v-col>
     </v-row>
   </div>
@@ -398,6 +399,7 @@ export default {
 
       // Footer (บันทึกเพิ่มเติม)
       note: "",
+      item: null
     };
   },
   computed: {
@@ -421,6 +423,14 @@ export default {
     this.generalData.years = this.getYears();
   },
   methods: {
+    async getItem() {
+      try {
+        const response = await axios.get('https://api.example.com/item/1');
+        this.item = response.data;
+      } catch (error) {
+        console.error('Error fetching item:', error);
+      }
+    },
     calculateDuration(startDate, endDate) {
       if (startDate && endDate) {
         const start = new Date(startDate);
@@ -431,8 +441,10 @@ export default {
             title: 'เกิดข้อผิดพลาด',
             text: 'วันที่เริ่มต้นต้องไม่เกินวันที่สิ้นสุด!',
           });
-          this.startDate = '';
-          this.endDate = '';
+          this.generalData.startDate = '';
+          this.generalData.endDate = '';
+          this.groupWork.startDate = '';
+          this.groupWork.endDate = '';
           return '';
         }
 
@@ -474,11 +486,6 @@ export default {
     async submitEvaluation() {
       try {
         const dataToSend = {
-          // generalData: this.generalData,
-          // groupWork: this.groupWork,
-          // evaluation: this.evaluation,
-          // note: this.note,
-          //datanew
           prefix: this.generalData.prefix,
           firstName: this.generalData.name,
           lastName: this.generalData.lastname,
@@ -497,17 +504,14 @@ export default {
               bedSize: this.groupWork.hospitalSize
             }
           },
-
           periodWork: this.groupWork.durationDisplay,
           startDate2: this.groupWork.startDate,
           endDate2: this.groupWork.endDate,
-
           sickLeave: this.groupWork.leaveSickDays,
           personalLeave: this.groupWork.leaveBusinessDays,
           withoutLeave: this.groupWork.absentWithoutLeaveDays,
           workPercentage: this.groupWork.actualWorkPercentage,
           withoutNotification: this.groupWork.noDutyWithoutNotice,
-
           topics: [
                 {
                   score: this.evaluation.knowledge
@@ -531,12 +535,9 @@ export default {
                   score: this.evaluation.continuousLearning
                 },
           ],
-
           report:this.note
         };
         console.log("ข้อมูลที่ส่งไป", dataToSend);
-
-
         const response = await axios.post('http://localhost:8000/form/create', dataToSend);
         console.log(response)
         if (response.status === 201) {
@@ -566,14 +567,10 @@ export default {
 
 <style scoped>
 .custom-card {
-  border: 1px solid #ccc;
+  border: 1px #ccc;
   border-radius: 18px;
   padding: 20px;
   max-width: 1200px;
   margin: 20px auto;
-}
-
-.group-work .v-col {
-  margin-bottom: 10px;
 }
 </style>
