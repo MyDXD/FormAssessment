@@ -34,3 +34,15 @@ exports.updateFormById = async (Id, updatedData) => {
     throw new Error('Error updating form by ID');
   }
 };
+
+// อัปเดตข้อมูลแบบฟอร์ม status succes
+exports.sendFormById = async (Id, updatedData) => {
+  try {
+
+    const updatedForm = await MedicalPerformanceForm.findByIdAndUpdate(Id, updatedData, { new: true });
+
+    return updatedForm;
+  } catch (error) {
+    throw new Error('Error send form by ID');
+  }
+};

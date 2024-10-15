@@ -45,6 +45,13 @@ const medicalPerformanceSchema = new Schema(
     ],
 
     report: { type: String }, // ข้อควรปรับปรุง
+    
+    status: {
+      type: String,
+      enum : ['new','success'],
+      default: 'new'
+  },
+
   },
   { timestamps: true }
 );

@@ -11,6 +11,7 @@ router.get('/:id', formController.getFormsById);
 
 // แก้ไขฟอร์ม
 router.put('/:id', formController.updateFormById);
+router.patch('/:id', formController.sendFormById);
 
 
 module.exports = router;

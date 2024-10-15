@@ -57,3 +57,22 @@ exports.updateFormById = async (req, res) => {
     res.status(500).json({ error: 'Error updating form', details: error.message });
   }
 };
+
+// ฟังก์ชันสำหรับอัปเดตแบบฟอร์มตาม id
+exports.sendFormById = async (req, res) => {
+  try {
+    const formId = req.params.id;
+    const updatedData = req.body; // ข้อมูลที่ต้องการอัปเดตส่งมาจาก request body
+
+    const sendForm = await formService.sendFormById(formId, updatedData);
+
+    if (sendForm) {
+      res.status(200).json(sendForm);
+    } else {
+      res.status(404).json({ message: 'Form not found' });
+    }
+  } catch (error) {
+    // Error handling
+    res.status(500).json({ error: 'Error updating form', details: error.message });
+  }
+};
