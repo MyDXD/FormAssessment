@@ -13,10 +13,13 @@ exports.createForm = async (req, res) => {
 // ฟังก์ชันสำหรับดึงแบบฟอร์มทั้งหมด
 exports.getForms = async (req, res) => {
   try {
-    const forms = await formService.getForms();
+    const limit = parseInt(req.query.limit) || 10;  // ค่าเริ่มต้น limit = 10
+    const offset = parseInt(req.query.offset) || 0; // ค่าเริ่มต้น offset = 0
+
+    const forms = await formService.getForms(limit, offset);
     res.status(200).json(forms);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching forms', details: error });
+    res.status(500).json({ error: 'Error fetching forms', details: error.message });
   }
 };
 
