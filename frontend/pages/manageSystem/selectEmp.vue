@@ -11,35 +11,30 @@
                 <v-text-field label="ชื่อแพทย์เพิ่มพูนทักษะ" outlined dense></v-text-field>
               </v-col>
             </v-row>
-            <v-row no-gutters>
-  <!-- เรียงจากซ้ายไปขวา -->
-  <v-col cols="3">
-    <v-text-field label="ชื่อผู้ประเมิน" outlined dense></v-text-field>
-  </v-col>
-  <v-col cols="9">
-    <v-radio-group v-model="evaluatorType" row>
-      <v-col cols="auto">
-        <v-radio label="อาจารย์" value="อาจารย์"></v-radio>
-      </v-col>
-      <v-col cols="auto">
-        <v-radio label="แพทย์ประจำบ้าน" value="แพทย์ประจำบ้าน"></v-radio>
-      </v-col>
-      <v-col cols="auto">
-        <v-radio label="แพทย์เพิ่มพูนทักษะ" value="แพทย์เพิ่มพูนทักษะ"></v-radio>
-      </v-col>
-      <v-col cols="auto">
-        <v-radio label="พยาบาล" value="พยาบาล"></v-radio>
-      </v-col>
-      <v-col cols="auto">
-        <v-radio label="อื่นๆ" value="อื่นๆ"></v-radio>
-        <!-- ช่องกรอกข้อความเมื่อเลือก "อื่นๆ" อยู่ในระนาบเดียวกัน -->
-        <v-text-field v-if="evaluatorType === 'อื่นๆ'" v-model="otherEvaluator" label="ระบุ" outlined dense></v-text-field>
-      </v-col>
-    </v-radio-group>
-  </v-col>
-</v-row>
+            <v-row no-gutters align="center">
+              <!-- ช่องกรอกสำหรับระบุผู้ประเมิน -->
+              <v-col cols="3">
+                <v-text-field v-model="otherEvaluator" label="ระบุผู้ประเมิน" outlined dense></v-text-field>
+              </v-col>
 
-            <v-row no-gutters a>
+              <!-- กลุ่มของ radio buttons -->
+              <v-col cols="9">
+                <v-radio-group v-model="evaluatorType" row>
+                  <v-radio label="อาจารย์" value="อาจารย์"></v-radio>
+                  <v-radio label="แพทย์ประจำบ้าน" value="แพทย์ประจำบ้าน"></v-radio>
+                  <v-radio label="แพทย์เพิ่มพูนทักษะ" value="แพทย์เพิ่มพูนทักษะ"></v-radio>
+                  <v-radio label="พยาบาล" value="พยาบาล"></v-radio>
+                  <v-radio label="อื่นๆระบุ" value="อื่นๆ"></v-radio>
+
+                  <!-- ช่องกรอกข้อความเมื่อเลือก "อื่นๆ" -->
+                  <v-text-field v-if="evaluatorType === 'อื่นๆ'" v-model="otherEvaluator" label="ระบุ" outlined
+                    dense></v-text-field>
+                </v-radio-group>
+              </v-col>
+            </v-row>
+
+
+            <v-row no-gutters>
               <v-col cols="2">
                 <h3>สถานที่</h3>
               </v-col>
@@ -50,6 +45,7 @@
                 </v-radio-group>
               </v-col>
             </v-row>
+
             <v-row no-gutters>
               <v-col cols="2">
                 <h3>Clinical setting</h3>
@@ -66,7 +62,6 @@
                 </v-radio-group>
               </v-col>
             </v-row>
-
           </v-card-text>
         </v-card>
       </v-col>
@@ -78,21 +73,46 @@
         <v-card>
           <v-card-title>พฤติกรรม</v-card-title>
           <v-card-text>
-            <v-data-table :headers="headers" :items="items" class="elevation-1">
-              <template v-slot:item.behavior="{ item }">
-                <td>{{ item.behavior }}</td>
-              </template>
-              <template v-slot:item.outstanding="{ item }">
-                <v-radio v-model="item.rating" value="Outstanding"></v-radio>
-              </template>
-              <template v-slot:item.average="{ item }">
-                <v-radio v-model="item.rating" value="Average"></v-radio>
-              </template>
-              <template v-slot:item.belowAverage="{ item }">
-                <v-radio v-model="item.rating" value="Below Average"></v-radio>
-              </template>
-              <template v-slot:item.notEvaluated="{ item }">
-                <v-radio v-model="item.rating" value="Not Evaluated"></v-radio>
+            <v-data-table :headers="headers" :items="items" item-value="behavior" class="elevation-1">
+              <template v-slot:item="{ item }">
+                <tr>
+                  <!-- คอลัมน์พฤติกรรม -->
+                  <td>{{ item.behavior }}</td>
+
+                  <!-- คอลัมน์ Outstanding -->
+                  <td>
+                    <v-radio-group v-model="item.rating">
+                      <v-radio value="Outstanding"></v-radio>
+                    </v-radio-group>
+                  </td>
+
+                  <!-- คอลัมน์ Average -->
+                  <td>
+                    <v-radio-group v-model="item.rating">
+                      <v-radio value="Average"></v-radio>
+                    </v-radio-group>
+                  </td>
+
+                  <!-- คอลัมน์ Below Average -->
+                  <td>
+                    <v-radio-group v-model="item.rating">
+                      <v-radio value="Below Average"></v-radio>
+                    </v-radio-group>
+                  </td>
+
+                  <!-- คอลัมน์ Not Evaluated -->
+                  <td>
+                    <v-radio-group v-model="item.rating">
+                      <v-radio value="Not Evaluated"></v-radio>
+                    </v-radio-group>
+                  </td>
+
+                  <!-- คอลัมน์ หมายเหตุ -->
+                  <td>
+                    <!-- ตรวจสอบว่า item.showNote เป็น true หรือไม่ -->
+                    <span v-if="item.showNote">ต้องไม่ต่ำกว่า average</span>
+                  </td>
+                </tr>
               </template>
             </v-data-table>
           </v-card-text>
@@ -138,31 +158,29 @@ export default {
   data() {
     return {
       evaluatorType: '',
+      evaluatorName: '',
       otherEvaluator: '',
+      place: '',
+      clinicalSetting: '',
       headers: [
         { text: 'พฤติกรรม', value: 'behavior' },
         { text: 'Outstanding', value: 'outstanding' },
         { text: 'Average', value: 'average' },
         { text: 'Below Average', value: 'belowAverage' },
         { text: 'ประเมินไม่ได้', value: 'notEvaluated' },
+        { text: 'หมายเหตุ', value: 'notes' },
       ],
       items: [
-        { behavior: 'ชื่อสัตย์', rating: null },
-        { behavior: 'รับผิดชอบ', rating: null },
-        { behavior: 'ตรงต่อเวลา', rating: null },
-        { behavior: 'แต่งกายสุภาพ', rating: null },
-        { behavior: 'ทักษะในการสื่อสารกับผู้ป่วยและญาติ', rating: null },
-        { behavior: 'ทักษะในการสื่อสารกับเพื่อนร่วมงาน', rating: null },
-        { behavior: 'จุดเด่นด้านจริยธรรมวิชาชีพ', rating: null },
-        { behavior: 'อื่นๆ', rating: null },
+        { behavior: 'ชื่อสัตย์', rating: null, notes: '', showNote: true },  
+        { behavior: 'รับผิดชอบ', rating: null, notes: '', showNote: true },
+        { behavior: 'ตรงต่อเวลา', rating: null, notes: '', showNote: false },
+        { behavior: 'แต่งกายสุภาพ', rating: null, notes: '', showNote: false },
+        { behavior: 'ทักษะในการสื่อสารกับผู้ป่วยและญาติ', rating: null, notes: '', showNote: false },
+        { behavior: 'ทักษะในการสื่อสารเเละมนุษย์สัมพันธุ์กับเพื่อนร่วมงาน', rating: null, notes: '', showNote: false },
+        { behavior: 'ดูเเลผู้ป่วยด้วยจริยธรรมวิชาชีพ', rating: null, notes: '', showNote: true },
+        { behavior: 'อื่นๆ', rating: null, notes: '', showNote: false },
       ],
     };
   },
 };
 </script>
-
-<style scoped>
-.v-card {
-  margin-bottom: 20px;
-}
-</style>
