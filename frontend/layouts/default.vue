@@ -19,7 +19,7 @@
         </v-list-item>
         <v-list-group>
           <template #activator>
-            <v-list-item-title>ตั้งค่าระบบ</v-list-item-title>
+            <v-list-item-title>จัดการเอกสาร</v-list-item-title>
           </template>
           <v-list-item
             v-for="item in configMenu"
@@ -140,9 +140,9 @@ export default {
       ],
       configMenu: [
         { name: "เลือกวัน", to: "/manageSystem/selectDate", icon: "mdi mdi-calendar-range" },
-        { name: "เลือกคอร์ส", to: "/manageSystem/selectCourse", icon: "mdi mdi-book-cog-outline" },
-        { name: "เลือกห้อง", to: "/manageSystem/selectRoom", icon: "mdi mdi-google-classroom" },
-        { name: "เลือกพนักงาน", to: "/manageSystem/selectEmp", icon: "mdi mdi-human-male" },
+        { name: "ตารางรวมเอกสาร", to: "/manageSystem/selectCourse", icon: "mdi mdi-book-cog-outline" },
+        { name: "ใบประเมิณ1", to: "/manageSystem/selectRoom", icon: "mdi mdi-google-classroom" },
+        { name: "ใบประเมิณ2", to: "/manageSystem/selectEmp", icon: "mdi mdi-human-male" },
       ],
       items: [
         {
@@ -173,9 +173,9 @@ export default {
         "/": "ห้องเรียน",
         "/inspire": "ข้อสอบ",
         "/test": "ผลสอบ",
-        "/manageSystem/selectEmp": "เลือกพนักงาน",
-        "/manageSystem/selectRoom": "เลือกห้อง",
-        "/manageSystem/selectCourse": "เลือกคอร์ส",
+        "/manageSystem/selectEmp": "ใบประเมิณ2",
+        "/manageSystem/selectRoom": "ใบประเมิณ1",
+        "/manageSystem/selectCourse": "ตารางรวมเอกสาร",
         "/manageSystem/selectDate": "เลือกวัน",
         "/teacher/score": "กรอกคะเเนน",
         "/teacher/testNo": "เลือกชุดข้อสอบ",

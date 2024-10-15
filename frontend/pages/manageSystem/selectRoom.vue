@@ -6,41 +6,41 @@
       <v-form>
         <v-row>
           <!-- Prefix Radio Group -->
-          <v-radio-group v-model="generalData.prefix" row>
+          <v-radio-group v-model="generalData.prefix" row :disabled="this.status === 'success'">
             <v-radio label="นพ." value="นพ."></v-radio>
             <v-radio label="พญ." value="พญ."></v-radio>
           </v-radio-group>
 
           <!-- Name Fields -->
           <v-col cols="3">
-            <v-text-field label="ชื่อ" outlined v-model="generalData.name"></v-text-field>
+            <v-text-field label="ชื่อ" outlined v-model="generalData.name" :disabled="this.status === 'success'"></v-text-field>
           </v-col>
           <v-col cols="3">
-            <v-text-field label="นามสกุล" outlined v-model="generalData.lastname"></v-text-field>
+            <v-text-field label="นามสกุล" outlined v-model="generalData.lastname" :disabled="this.status === 'success'"></v-text-field>
           </v-col>
           <v-col cols="3">
-            <v-text-field label="สถานที่สำเร็จการศึกษา" outlined v-model="generalData.graduationPlace"></v-text-field>
+            <v-text-field label="สถานที่สำเร็จการศึกษา" outlined v-model="generalData.graduationPlace" :disabled="this.status === 'success'"></v-text-field>
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="4">
             <v-select v-model="generalData.year" :items="generalData.years" label="ปีที่สำเร็จการศึกษา"
-              outlined></v-select>
+              outlined :disabled="this.status === 'success'"></v-select>
           </v-col>
           <v-col cols="4">
-            <v-text-field label="ปฎิบัติงานที่โรงพยาบาล" outlined v-model="generalData.hospital"></v-text-field>
+            <v-text-field label="ปฎิบัติงานที่โรงพยาบาล" outlined v-model="generalData.hospital" :disabled="this.status === 'success'"></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-text-field label="จังหวัด" outlined v-model="generalData.province"></v-text-field>
+            <v-text-field label="จังหวัด" outlined v-model="generalData.province" :disabled="this.status === 'success'"></v-text-field>
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="4">
-            <v-menu ref="generalStartMenu" v-model="generalData.startMenu" :close-on-content-click="false"
+            <v-menu :disabled="this.status === 'success'" ref="generalStartMenu" v-model="generalData.startMenu" :close-on-content-click="false"
               transition="scale-transition" offset-y min-width="290px">
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ on, attrs }" >
                 <v-text-field v-bind="attrs" v-on="on" label="วันที่เริ่มต้น"
                   :value="formatGeneralDate(generalData.startDate)" readonly outlined
                   append-icon="mdi mdi-calendar-blank-outline"></v-text-field>
@@ -51,12 +51,12 @@
           </v-col>
 
           <v-col cols="4">
-            <v-menu ref="generalEndMenu" v-model="generalData.endMenu" :close-on-content-click="false"
+            <v-menu :disabled="this.status === 'success'" ref="generalEndMenu" v-model="generalData.endMenu" :close-on-content-click="false"
               transition="scale-transition" offset-y min-width="290px">
               <template v-slot:activator="{ on, attrs }">
-                <v-text-field v-bind="attrs" v-on="on" label="วันที่สิ้นสุด"
+                <v-text-field  v-bind="attrs" v-on="on" label="วันที่สิ้นสุด"
                   :value="formatGeneralDate(generalData.endDate)" readonly outlined
-                  append-icon="mdi mdi-calendar-blank-outline"></v-text-field>
+                  append-icon="mdi mdi-calendar-blank-outline" ></v-text-field>
               </template>
               <v-date-picker v-model="generalData.endDate" locale="th" scrollable
                 @change="generalData.endMenu = false"></v-date-picker>
@@ -338,8 +338,9 @@
     <v-row>
       <v-col cols="12" class="text-center">
         <v-btn @click="submitEvaluation" color="primary">ส่งการประเมิน</v-btn>
+        <v-btn @click="getEvaluation" color="primary">Fetch Item</v-btn>
         <v-btn @click="updateEvaluation" color="primary">อัพเดตประเมิน</v-btn>
-        <v-btn color="primary" @click="getItem">Fetch Item</v-btn>
+        <v-btn @click="confirmSaveEvaluation" color="primary">บันทึกเเบบประเมิณ</v-btn>
       </v-col>
     </v-row>
   </div>
@@ -401,8 +402,12 @@ export default {
       // Footer (บันทึกเพิ่มเติม)
       note: "",
       item: null,
-      Id : "670dd9e468dfb0d078b67a6e"
+      Id : "670df7f2bb334fe3f1420bbf",
+      status:""
     };
+  },
+  created() {
+    this.getEvaluation()
   },
   computed: {
     generalDuration() {
@@ -425,7 +430,7 @@ export default {
     this.generalData.years = this.getYears();
   },
   methods: {
-    async getItem() {
+    async getEvaluation() {
       try {
         const response = await axios.get(`http://localhost:8000/form/${this.Id}`);
         this.item = response.data;
@@ -463,6 +468,14 @@ export default {
         this.evaluation.continuousLearning = this.item.topics[6].score;
 
         this.note = this.item.report;
+
+        this.status = this.item.status
+
+        // if(this.item.status === "success"){
+          
+        // }
+        console.log("status",this.item.status);
+        
 
         
       } catch (error) {
@@ -664,6 +677,103 @@ export default {
             icon: 'success',
             title: 'สำเร็จ',
             text: 'การประเมินถูกอัพเดตเรียบร้อยแล้ว!',
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: 'เกิดข้อผิดพลาดในการส่งข้อมูล โปรดลองอีกครั้ง!',
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'เกิดข้อผิดพลาด',
+          text: `ไม่สามารถส่งข้อมูลได้: ${error.message}`,
+        });
+      }
+    },
+    async confirmSaveEvaluation() {
+      const result = await Swal.fire({
+        title: 'คุณแน่ใจหรือไม่?',
+        text: "เมื่อบันทึกแล้วคุณจะไม่สามารถแก้ไขข้อมูลได้!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'บันทึก',
+        cancelButtonText: 'ยกเลิก'
+      });
+
+      if (result.isConfirmed) {
+        this.saveEvaluation();
+      }
+    },
+    async saveEvaluation() {
+      try {
+        const dataToSend = {
+          status:"success",
+          prefix: this.generalData.prefix,
+          firstName: this.generalData.name,
+          lastName: this.generalData.lastname,
+          education: this.generalData.graduationPlace,
+          graduationYear: this.generalData.year,
+          hospital: this.generalData.hospital,
+          province: this.generalData.province,
+          scheduleWork: this.generalData.durationDisplay,
+          startDate1: this.generalData.startDate,
+          endDate1: this.generalData.endDate,
+
+          departmentInfo: {
+            department: this.groupWork.department,
+            details: {
+              hospitalName: this.groupWork.hospitalName,
+              bedSize: this.groupWork.hospitalSize,
+              electiveSubject: this.groupWork.selectedSubject,
+            }
+          },
+          periodWork: this.groupWork.durationDisplay,
+          startDate2: this.groupWork.startDate,
+          endDate2: this.groupWork.endDate,
+          sickLeave: this.groupWork.leaveSickDays,
+          personalLeave: this.groupWork.leaveBusinessDays,
+          withoutLeave: this.groupWork.absentWithoutLeaveDays,
+          workPercentage: this.groupWork.actualWorkPercentage,
+          withoutNotification: this.groupWork.noDutyWithoutNotice,
+          topics: [
+            {
+              score: this.evaluation.knowledge
+            },
+            {
+              score: this.evaluation.laboratory
+            },
+            {
+              score: this.evaluation.analysis
+            },
+            {
+              score: this.evaluation.proceduralSkills
+            },
+            {
+              score: this.evaluation.ethics
+            },
+            {
+              score: this.evaluation.communication
+            },
+            {
+              score: this.evaluation.continuousLearning
+            },
+          ],
+          report: this.note
+        };
+        console.log("ข้อมูลที่อัพเดตไป", dataToSend);
+        
+        const response = await axios.patch(`http://localhost:8000/form/${this.Id}`, dataToSend);
+        console.log(response)
+        if (response.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: 'การประเมินถูกบันทึกเรียบร้อยแล้ว!',
           });
         } else {
           Swal.fire({
