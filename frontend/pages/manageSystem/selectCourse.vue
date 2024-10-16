@@ -63,6 +63,7 @@
 import axios from 'axios';
 
 export default {
+    middleware: 'auth',
     data() {
         return {
             search: '',
@@ -86,8 +87,9 @@ export default {
         async fetchDocuments() {
             this.loading = true;
             try {
-                const res = await axios.get('http://localhost:8000/form');
-                console.log('API Response:', res.data);
+                // const res = await axios.get('http://localhost:8000/form?type=medical')
+                const res = await this.$axios.$get('/form?type=medical');
+                console.log('API Response:', res);
 
                 if (Array.isArray(res.data)) {
                     this.documents = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))

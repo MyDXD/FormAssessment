@@ -5,6 +5,8 @@ import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
 const _8fd15eb6 = () => interopDefault(import('../pages/inspire.vue' /* webpackChunkName: "pages/inspire" */))
+const _59d45e74 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
+const _4eecb5e8 = () => interopDefault(import('../pages/register.vue' /* webpackChunkName: "pages/register" */))
 const _6f345ad7 = () => interopDefault(import('../pages/test.vue' /* webpackChunkName: "pages/test" */))
 const _11f07d06 = () => interopDefault(import('../pages/manageSystem/selectCourse.vue' /* webpackChunkName: "pages/manageSystem/selectCourse" */))
 const _7bff4be0 = () => interopDefault(import('../pages/manageSystem/selectDate.vue' /* webpackChunkName: "pages/manageSystem/selectDate" */))
@@ -29,6 +31,14 @@ export const routerOptions = {
     path: "/inspire",
     component: _8fd15eb6,
     name: "inspire"
+  }, {
+    path: "/login",
+    component: _59d45e74,
+    name: "login"
+  }, {
+    path: "/register",
+    component: _4eecb5e8,
+    name: "register"
   }, {
     path: "/test",
     component: _6f345ad7,

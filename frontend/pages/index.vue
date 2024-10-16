@@ -4,6 +4,7 @@
 
 <script>
 export default {
+  middleware: 'redirectToLogin',
   name: 'HomePage',
   meta: {
     title: 'Home'

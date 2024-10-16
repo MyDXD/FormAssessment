@@ -347,10 +347,11 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import Swal from 'sweetalert2';
 
 export default {
+  middleware: 'auth',
   data() {
     return {
       // ข้อมูลทั่วไป
@@ -402,7 +403,7 @@ export default {
       // Footer (บันทึกเพิ่มเติม)
       note: "",
       item: null,
-      Id : "670df7f2bb334fe3f1420bbf",
+      Id : "670f3baa642153c38d1bbc12",
       status:""
     };
   },
@@ -432,7 +433,8 @@ export default {
   methods: {
     async getEvaluation() {
       try {
-        const response = await axios.get(`http://localhost:8000/form/${this.Id}`);
+        // const response = await axios.get(`http://localhost:8000/form/${this.Id}`);
+        const response = await this.$axios.$get(`/form/${this.Id}?type=medical`)
         this.item = response.data;
         console.log("dataget", this.item);
         this.generalData.prefix = this.item.prefix
@@ -588,24 +590,18 @@ export default {
               score: this.evaluation.continuousLearning
             },
           ],
-          report: this.note
+          report: this.note,
+          type: "medical"
         };
         console.log("ข้อมูลที่ส่งไป", dataToSend);
-        const response = await axios.post('http://localhost:8000/form/create', dataToSend);
+        // const response = await axios.post('http://localhost:8000/form/create', dataToSend);
+        const response = await this.$axios.$post('/form/create', dataToSend);
         console.log(response)
-        if (response.status === 201) {
           Swal.fire({
             icon: 'success',
             title: 'สำเร็จ',
             text: 'การประเมินถูกส่งเรียบร้อยแล้ว!',
           });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: 'เกิดข้อผิดพลาดในการส่งข้อมูล โปรดลองอีกครั้ง!',
-          });
-        }
       } catch (error) {
         Swal.fire({
           icon: 'error',
@@ -671,21 +667,13 @@ export default {
         };
         console.log("ข้อมูลที่อัพเดตไป", dataToSend);
         
-        const response = await axios.put(`http://localhost:8000/form/${this.Id}`, dataToSend);
+        const response = await this.$axios.$put(`/form/${this.Id}?type=medical`, dataToSend);
         console.log(response)
-        if (response.status === 200) {
           Swal.fire({
             icon: 'success',
             title: 'สำเร็จ',
             text: 'การประเมินถูกอัพเดตเรียบร้อยแล้ว!',
           });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: 'เกิดข้อผิดพลาดในการส่งข้อมูล โปรดลองอีกครั้ง!',
-          });
-        }
       } catch (error) {
         Swal.fire({
           icon: 'error',
@@ -768,21 +756,14 @@ export default {
         };
         console.log("ข้อมูลที่อัพเดตไป", dataToSend);
         
-        const response = await axios.patch(`http://localhost:8000/form/${this.Id}`, dataToSend);
+        // const response = await axios.patch(`http://localhost:8000/form/${this.Id}`, dataToSend);
+        const response = await this.$axios.$patch(`/form/${this.Id}?type=medical`, dataToSend);
         console.log(response)
-        if (response.status === 200) {
           Swal.fire({
             icon: 'success',
             title: 'สำเร็จ',
             text: 'การประเมินถูกบันทึกเรียบร้อยแล้ว!',
           });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: 'เกิดข้อผิดพลาดในการส่งข้อมูล โปรดลองอีกครั้ง!',
-          });
-        }
       } catch (error) {
         Swal.fire({
           icon: 'error',

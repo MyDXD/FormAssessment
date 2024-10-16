@@ -1,10 +1,10 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+  // Disable server-side rendering
   ssr: false,
 
-  // Global page headers: https://go.nuxtjs.dev/config-head
+  // Global page headers
   head: {
     titleTemplate: '%s - nuxt-test',
     title: 'nuxt-test',
@@ -22,51 +22,47 @@ export default {
     ]
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
+  // Global CSS
   css: [
   ],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  // Plugins to run before rendering page
   plugins: [
   ],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
+  // Auto import components
   components: true,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  // Modules for dev and build (recommended)
   buildModules: [
-    // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
   ],
 
-  // Modules: https://go.nuxtjs.dev/config-modules
+  // Modules
   modules: [
+    '@nuxtjs/axios',
+    'vue-sweetalert2/nuxt'
   ],
 
-  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
+  // Axios module configuration
+  axios: {
+    baseURL: 'http://localhost:8000'
+  },
+
+  // Vuetify module configuration
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
       light: true,
-      // dark: true,
       themes: {
         light: {
           primary: '#0863B6',
         },
-        // dark: {
-        //   primary: colors.blue.darken2,
-        //   accent: colors.grey.darken3,
-        //   secondary: colors.amber.darken3,
-        //   info: colors.teal.lighten1,
-        //   warning: colors.amber.base,
-        //   error: colors.deepOrange.accent4,
-        //   success: colors.green.accent3
-        // }
       }
     }
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
+  // Build Configuration
   build: {
   }
 }
