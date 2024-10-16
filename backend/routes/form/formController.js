@@ -7,7 +7,7 @@ exports.createForm = async (req, res) => {
     const { type } = req.body; // 
 
     console.log(type)
-    res.status(201).json({ message: 'Form created successfully', data : form , type : type});
+    res.status(201).json({ message: 'Form created successfully', data : form , type : type ,});
   } catch (error) {
     res.status(400).json({ error: 'Error creating form', details: error });
   }
