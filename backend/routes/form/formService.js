@@ -25,7 +25,6 @@ exports.createForm = async (formData) => {
   
   
   const totalScore = formData.topics.reduce((sum, topic) => sum + topic.score, 0);
-  console.log(totalScore)
   formData.total = totalScore;
 
   const form = new model(formData);
@@ -53,7 +52,6 @@ exports.getFormById = async (formType, Id) => {
 exports.updateFormById = async (formType, Id, updatedData) => {
   try {
     const model = selectModel(formType); // เลือกโมเดลที่ถูกต้อง
-    console.log(model)
     const updatedForm = await model.findByIdAndUpdate(Id, updatedData, { new: true });
     return updatedForm;
   } catch (error) {

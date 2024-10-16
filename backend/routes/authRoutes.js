@@ -36,7 +36,6 @@ router.post("/login", async (req, res) => {
 
     // ค้นหาผู้ใช้ในฐานข้อมูล
     const user = await userSchema.findOne({ email });
-    console.log(user)
 
     if (!user) {
       return res.status(404).json({ status : 404 ,message: "User not found" });

@@ -22,8 +22,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["student", "teacher"],
-      default: "student", // เปลี่ยนค่าเริ่มต้นให้เป็น student
+      default: "student", // ค่าเริ่มต้นคือ "student" ถ้าไม่มีการส่งมา
     },
   },
   {

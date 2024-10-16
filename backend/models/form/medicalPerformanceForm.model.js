@@ -13,10 +13,12 @@ const medicalPerformanceSchema = new Schema(
       ref: "User",
       required: true,
     },
-    teacher: {
-      type: Schema.Types.ObjectId, // ลิงก์กับ teacher ที่อนุมัติฟอร์ม
-      ref: "User",
-    },
+    approver: [
+      {
+        type: Schema.Types.ObjectId, // ลิงก์กับ teacher ที่อนุมัติฟอร์ม
+        ref: "User",
+      },
+    ],
     education: { type: String, required: true }, //สถาบันที่สำเร็จการศึกษา
     graduationYear: { type: String, required: true }, //ปีที่สำเร็จการศึกษา
     hospital: { type: String, required: true }, // ปฏิบัติงานโรงพยาบาล

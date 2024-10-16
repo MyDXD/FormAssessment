@@ -2,13 +2,11 @@ var express = require('express');
 var router = express.Router();
 const formRoutes = require('./form/formRoutes');
 const authRoutes = require('./authRoutes');
+const userRoutes = require('./user/usersRoutes');
 
 
-router.get('/', async function(req, res, next) {
-    res.status(200).send("hello bro");
-});
 
-
+router.use('/users', userRoutes)
 router.use('/form', formRoutes);
 router.use('/',authRoutes);
 
