@@ -1,5 +1,10 @@
-// middleware/redirectToLogin.js
 export default function ({ redirect }) {
-    return redirect('/login')
+    const token = localStorage.getItem('token');
+  
+    if (!token) {
+      return redirect('/login');
+    }
+  
+    return redirect('/');
   }
   
