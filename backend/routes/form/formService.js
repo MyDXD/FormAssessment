@@ -18,13 +18,19 @@ const selectModel = (formType) => {
 // สร้างแบบฟอร์มใหม่
 exports.createForm = async (formData) => {
   const model = selectModel(formData.type); // ตรวจสอบประเภทฟอร์มจากฟิลด์ `type`
-  const form = new model(formData); // ใช้โมเดลที่เลือก
+  
+  
+  const totalScore = formData.topics.reduce((sum, topic) => sum + topic.score, 0);
+  console.log(totalScore)
+  formData.total = totalScore;
+
+  const form = new model(formData);
   return await form.save();
 };
 
 // ดึงข้อมูลแบบฟอร์มทั้งหมดตามประเภทฟอร์ม
 exports.getForms = async (formType) => {
-  const model = selectModel(formType); // เลือกโมเดลที่ถูกต้อง
+  const model = selectModel(formType); 
   return await model.find();
 };
 

@@ -8,6 +8,15 @@ const medicalPerformanceSchema = new Schema(
     prefix: { type: String, required: true }, // คำนำหน้า
     firstName: { type: String, required: true }, //ชื่อ
     lastName: { type: String, required: true }, //นามสกุล
+    student: {
+      type: Schema.Types.ObjectId, // ลิงก์กับ student ที่ส่งฟอร์ม
+      ref: "User",
+      required: true,
+    },
+    teacher: {
+      type: Schema.Types.ObjectId, // ลิงก์กับ teacher ที่อนุมัติฟอร์ม
+      ref: "User",
+    },
     education: { type: String, required: true }, //สถาบันที่สำเร็จการศึกษา
     graduationYear: { type: String, required: true }, //ปีที่สำเร็จการศึกษา
     hospital: { type: String, required: true }, // ปฏิบัติงานโรงพยาบาล
@@ -44,11 +53,16 @@ const medicalPerformanceSchema = new Schema(
         score: { type: Number, required: true }, // ชื่อหัวข้อย่อย
       },
     ],
+    total: {
+      type: Number, // เก็บผลรวมของคะแนน
+      required: true,
+      default: 0,
+    },
 
     report: { type: String }, // ข้อควรปรับปรุง
 
+    //สถานะเอกสาร
     status: {
-      //สถานะเอกสาร
       type: String,
       enum: ["new", "success"],
       default: "new",

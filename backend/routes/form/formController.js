@@ -5,6 +5,11 @@ exports.createForm = async (req, res) => {
   try {
     const form = await formService.createForm(req.body);
     const { type } = req.body; // 
+    if (!type) {
+      return res.status(400).json({
+        message: "Error: form type is required",
+      });
+    }
 
     console.log(type)
     res.status(201).json({ message: 'Form created successfully', data : form , type : type ,});
@@ -17,6 +22,11 @@ exports.createForm = async (req, res) => {
 exports.getForms = async (req, res) => {
   try {
     const { type } = req.query; // รับประเภทฟอร์มจาก query parameter
+    if (!type) {
+      return res.status(400).json({
+        message: "Error: form type is required",
+      });
+    }
     const forms = await formService.getForms(type);
     res.status(200).json({data : forms});
   } catch (error) {
@@ -29,6 +39,11 @@ exports.getForms = async (req, res) => {
 exports.getFormsById = async (req, res) => {
   try {
     const { type } = req.query; // รับประเภทฟอร์มจาก query parameter
+    if (!type) {
+      return res.status(400).json({
+        message: "Error: form type is required",
+      });
+    }
     const formId = req.params.id;
     
     const form = await formService.getFormById(type , formId);
@@ -48,6 +63,11 @@ exports.getFormsById = async (req, res) => {
 exports.updateFormById = async (req, res) => {
   try {
     const { type } = req.query; // รับประเภทฟอร์มจาก query parameter
+    if (!type) {
+      return res.status(400).json({
+        message: "Error: form type is required",
+      });
+    }
     const formId = req.params.id;
     const updatedData = req.body; // ข้อมูลที่ต้องการอัปเดตส่งมาจาก request body
 
@@ -68,6 +88,11 @@ exports.updateFormById = async (req, res) => {
 exports.sendFormById = async (req, res) => {
   try {
     const { type } = req.query; // รับประเภทฟอร์มจาก query parameter
+    if (!type) {
+      return res.status(400).json({
+        message: "Error: form type is required",
+      });
+    }
     const formId = req.params.id;
     const updatedData = req.body; 
     const sendForm = await formService.sendFormById(type ,formId, updatedData);
