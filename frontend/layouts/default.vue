@@ -87,6 +87,7 @@
       />
       <v-toolbar-title class="header-text">{{ currentTitle }}</v-toolbar-title>
       <v-spacer />
+      <v-btn color="red" @click="logout">Logout</v-btn>
       <!-- <v-btn
         icon
         @click.stop="rightDrawer = !rightDrawer"
@@ -181,6 +182,13 @@ export default {
         "/teacher/testNo": "เลือกชุดข้อสอบ",
       };
       return titleMap[this.$route.path] || "Default Title";
+    },
+  },
+  methods: {
+    async logout() {
+      this.$store.commit('auth/logout');
+      localStorage.removeItem("token");
+      this.$router.push('/login');
     },
   },
 };

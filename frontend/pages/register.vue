@@ -25,12 +25,12 @@
                                 @click:append="showPassword = !showPassword" required></v-text-field>
 
                             <!-- New input fields -->
-                            <v-text-field v-model="username" label="Username" prepend-icon="mdi-account"
+                            <v-text-field v-model="firstname" label="firstname" prepend-icon="mdi-home"
                                 required></v-text-field>
-                            <v-text-field v-model="address" label="Address" prepend-icon="mdi-home"
+                            <v-text-field v-model="lastname" label="lastname" prepend-icon="mdi-account"
                                 required></v-text-field>
-                            <v-text-field v-model="age" label="Age" prepend-icon="mdi-cake" type="number"
-                                required></v-text-field>
+                            <!-- <v-text-field v-model="age" label="" prepend-icon="mdi-cake" type="number"
+                                required></v-text-field> -->
                         </v-form>
                     </v-card-text>
 
@@ -53,13 +53,16 @@ import Swal from "sweetalert2";
 export default {
     data() {
         return {
-            username: "",
+            // username: "",
             email: "",
             password: "",
-            address: "",
-            age: "",
+            firstname:"",
+            lastname:"",
+            // address: "",
+            // age: "",
             showPassword: false,
             valid: false,
+
         };
     },
     methods: {
@@ -72,23 +75,22 @@ export default {
             if (
                 !this.email ||
                 !this.password ||
-                !this.username ||
-                !this.address ||
-                !this.age
+                !this.firstname ||
+                !this.lastname 
             ) {
                 alert("Please fill all the required fields");
                 return;
             }
 
             try {
-                const response = await this.axios.post(
-                    "http://localhost:5000/register",
+                const response = await this.$axios.$post(
+                    "/register",
                     {
                         email: this.email,
                         password: this.password,
-                        username: this.username,
-                        address: this.address,
-                        age: this.age,
+                        firstName: this.firstname,
+                        lastName: this.lastname,
+                        // age: this.age,
                     }
                 );
                 console.log(response);

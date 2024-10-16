@@ -8,7 +8,7 @@
 
                     <v-card-text>
                         <v-form ref="loginForm" v-model="valid" lazy-validation>
-                            <v-text-field v-model="username" label="Username" prepend-icon="mdi-account"
+                            <v-text-field v-model="username" label="email" prepend-icon="mdi-account"
                                 required></v-text-field>
                             <v-text-field v-model="password" label="Password" prepend-icon="mdi-lock"
                                 :type="showPassword ? 'text' : 'password'"
@@ -43,26 +43,34 @@ export default {
     methods: {
         async login() {
             if (!this.username || !this.password) {
-                alert('Please enter both username and password');
+                this.$swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: 'กรุณากรอก username password',
+          });
                 return;
             }
 
             try {
-                const response = await this.axios.post('http://localhost:3000/api/v1/login', {
-                    username: this.username,
+                const response = await this.$axios.$post('/login', {
+                    email: this.username,
                     password: this.password,
                 });
-
-                const token = response.data.token;
-                localStorage.setItem('Token', token);
-                const id = response.data.id;
-                localStorage.setItem('Id', id);
-                console.log(id);
+                this.$swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: 'loginเรียบร้อยแล้ว!',
+          });
+                const token = response.token;
+                localStorage.setItem('token', token);
+                // const id = response.data.id;
+                // localStorage.setItem('Id', id);
+                console.log(response);
                 this.$store.commit('auth/login');
                 this.$router.push('/manageSystem/selectRoom');
             } catch (error) {
                 console.error(error.message);
-                Swal.fire({
+                this.$swal.fire({
                     icon: "error",
                     title: "Error occurred",
                     text: "Something went wrong!",

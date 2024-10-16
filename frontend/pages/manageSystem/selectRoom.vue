@@ -348,7 +348,7 @@
 
 <script>
 // import axios from 'axios';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 
 export default {
   middleware: 'auth',
@@ -407,9 +407,9 @@ export default {
       status:""
     };
   },
-  created() {
-    this.getEvaluation()
-  },
+  // created() {
+  //   this.getEvaluation()
+  // },
   computed: {
     generalDuration() {
       return this.calculateDuration(this.generalData.startDate, this.generalData.endDate);
@@ -489,7 +489,7 @@ export default {
         const start = new Date(startDate);
         const end = new Date(endDate);
         if (start > end) {
-          Swal.fire({
+          this.$swal.fire({
             icon: 'error',
             title: 'เกิดข้อผิดพลาด',
             text: 'วันที่เริ่มต้นต้องไม่เกินวันที่สิ้นสุด!',
@@ -597,13 +597,13 @@ export default {
         // const response = await axios.post('http://localhost:8000/form/create', dataToSend);
         const response = await this.$axios.$post('/form/create', dataToSend);
         console.log(response)
-          Swal.fire({
+        this.$swal.fire({
             icon: 'success',
             title: 'สำเร็จ',
             text: 'การประเมินถูกส่งเรียบร้อยแล้ว!',
           });
       } catch (error) {
-        Swal.fire({
+        this.$swal.fire({
           icon: 'error',
           title: 'เกิดข้อผิดพลาด',
           text: `ไม่สามารถส่งข้อมูลได้: ${error.message}`,
@@ -669,13 +669,13 @@ export default {
         
         const response = await this.$axios.$put(`/form/${this.Id}?type=medical`, dataToSend);
         console.log(response)
-          Swal.fire({
+        this.$swal.fire({
             icon: 'success',
             title: 'สำเร็จ',
             text: 'การประเมินถูกอัพเดตเรียบร้อยแล้ว!',
           });
       } catch (error) {
-        Swal.fire({
+        this.$swal.fire({
           icon: 'error',
           title: 'เกิดข้อผิดพลาด',
           text: `ไม่สามารถส่งข้อมูลได้: ${error.message}`,
@@ -683,7 +683,7 @@ export default {
       }
     },
     async confirmSaveEvaluation() {
-      const result = await Swal.fire({
+      const result = await this.$swal.fire({
         title: 'คุณแน่ใจหรือไม่?',
         text: "เมื่อบันทึกแล้วคุณจะไม่สามารถแก้ไขข้อมูลได้!",
         icon: 'warning',
@@ -759,13 +759,13 @@ export default {
         // const response = await axios.patch(`http://localhost:8000/form/${this.Id}`, dataToSend);
         const response = await this.$axios.$patch(`/form/${this.Id}?type=medical`, dataToSend);
         console.log(response)
-          Swal.fire({
+        this.$swal.fire({
             icon: 'success',
             title: 'สำเร็จ',
             text: 'การประเมินถูกบันทึกเรียบร้อยแล้ว!',
           });
       } catch (error) {
-        Swal.fire({
+        this.$swal.fire({
           icon: 'error',
           title: 'เกิดข้อผิดพลาด',
           text: `ไม่สามารถส่งข้อมูลได้: ${error.message}`,

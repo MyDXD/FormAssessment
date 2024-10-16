@@ -1,14 +1,14 @@
 // store/auth.js
 export const state = () => ({
-    loggedIn: false, // สถานะล็อกอินเริ่มต้น
+    loggedIn: false,
   });
   
   export const mutations = {
     login(state) {
-      state.loggedIn = true; // เปลี่ยนสถานะล็อกอิน
+      state.loggedIn = true;
     },
     logout(state) {
-      state.loggedIn = false; // เปลี่ยนสถานะออกจากระบบ
+      state.loggedIn = false;
     },
   };
   
