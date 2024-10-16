@@ -42,19 +42,26 @@ const medicalPerformanceSchema = new Schema(
     topics: [
       {
         score: { type: Number, required: true }, // ชื่อหัวข้อย่อย
-      }
+      },
     ],
 
     report: { type: String }, // ข้อควรปรับปรุง
 
     status: {
+      //สถานะเอกสาร
       type: String,
-      enum : ['new','success'],
-      default: 'new'
+      enum: ["new", "success"],
+      default: "new",
+    },
+  },
+  {
+    type: { type: String, required: true }, // ชนิดเอกสาร
   },
 
-  },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("MedicalPerformanceForm",medicalPerformanceSchema);
+module.exports = mongoose.model(
+  "MedicalPerformanceForm",
+  medicalPerformanceSchema
+);
