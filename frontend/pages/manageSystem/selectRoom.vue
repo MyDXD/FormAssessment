@@ -13,34 +13,39 @@
 
           <!-- Name Fields -->
           <v-col cols="3">
-            <v-text-field label="ชื่อ" outlined v-model="generalData.name" :disabled="this.status === 'success'"></v-text-field>
+            <v-text-field label="ชื่อ" outlined v-model="generalData.name"
+              :disabled="this.status === 'success'"></v-text-field>
           </v-col>
           <v-col cols="3">
-            <v-text-field label="นามสกุล" outlined v-model="generalData.lastname" :disabled="this.status === 'success'"></v-text-field>
+            <v-text-field label="นามสกุล" outlined v-model="generalData.lastname"
+              :disabled="this.status === 'success'"></v-text-field>
           </v-col>
           <v-col cols="3">
-            <v-text-field label="สถานที่สำเร็จการศึกษา" outlined v-model="generalData.graduationPlace" :disabled="this.status === 'success'"></v-text-field>
+            <v-text-field label="สถานที่สำเร็จการศึกษา" outlined v-model="generalData.graduationPlace"
+              :disabled="this.status === 'success'"></v-text-field>
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="4">
-            <v-select v-model="generalData.year" :items="generalData.years" label="ปีที่สำเร็จการศึกษา"
-              outlined :disabled="this.status === 'success'"></v-select>
+            <v-select v-model="generalData.year" :items="generalData.years" label="ปีที่สำเร็จการศึกษา" outlined
+              :disabled="this.status === 'success'"></v-select>
           </v-col>
           <v-col cols="4">
-            <v-text-field label="ปฎิบัติงานที่โรงพยาบาล" outlined v-model="generalData.hospital" :disabled="this.status === 'success'"></v-text-field>
+            <v-text-field label="ปฎิบัติงานที่โรงพยาบาล" outlined v-model="generalData.hospital"
+              :disabled="this.status === 'success'"></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-text-field label="จังหวัด" outlined v-model="generalData.province" :disabled="this.status === 'success'"></v-text-field>
+            <v-text-field label="จังหวัด" outlined v-model="generalData.province"
+              :disabled="this.status === 'success'"></v-text-field>
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="4">
-            <v-menu :disabled="this.status === 'success'" ref="generalStartMenu" v-model="generalData.startMenu" :close-on-content-click="false"
-              transition="scale-transition" offset-y min-width="290px">
-              <template v-slot:activator="{ on, attrs }" >
+            <v-menu :disabled="this.status === 'success'" ref="generalStartMenu" v-model="generalData.startMenu"
+              :close-on-content-click="false" transition="scale-transition" offset-y min-width="290px">
+              <template v-slot:activator="{ on, attrs }">
                 <v-text-field v-bind="attrs" v-on="on" label="วันที่เริ่มต้น"
                   :value="formatGeneralDate(generalData.startDate)" readonly outlined
                   append-icon="mdi mdi-calendar-blank-outline"></v-text-field>
@@ -51,12 +56,12 @@
           </v-col>
 
           <v-col cols="4">
-            <v-menu :disabled="this.status === 'success'" ref="generalEndMenu" v-model="generalData.endMenu" :close-on-content-click="false"
-              transition="scale-transition" offset-y min-width="290px">
+            <v-menu :disabled="this.status === 'success'" ref="generalEndMenu" v-model="generalData.endMenu"
+              :close-on-content-click="false" transition="scale-transition" offset-y min-width="290px">
               <template v-slot:activator="{ on, attrs }">
-                <v-text-field  v-bind="attrs" v-on="on" label="วันที่สิ้นสุด"
+                <v-text-field v-bind="attrs" v-on="on" label="วันที่สิ้นสุด"
                   :value="formatGeneralDate(generalData.endDate)" readonly outlined
-                  append-icon="mdi mdi-calendar-blank-outline" ></v-text-field>
+                  append-icon="mdi mdi-calendar-blank-outline"></v-text-field>
               </template>
               <v-date-picker v-model="generalData.endDate" locale="th" scrollable
                 @change="generalData.endMenu = false"></v-date-picker>
@@ -403,15 +408,15 @@ export default {
       // Footer (บันทึกเพิ่มเติม)
       note: "",
       item: null,
-      Id : "670f3baa642153c38d1bbc12",
-      status:""
+      Id: "670f3baa642153c38d1bbc12",
+      status: ""
     };
   },
   created() {
     // this.getEvaluation()
-    this.$store.dispatch('decodeToken'); 
+    this.$store.dispatch('decodeToken');
     // console.log("token",decodeToken);
-    
+
   },
   computed: {
     ...mapGetters({
@@ -429,7 +434,7 @@ export default {
   watch: {
     decodedToken(newVal) {
       console.log('Decoded Token:', newVal);
-  },
+    },
     generalDuration(newVal) {
       this.generalData.durationDisplay = newVal;
     },
@@ -484,12 +489,12 @@ export default {
         this.status = this.item.status
 
         // if(this.item.status === "success"){
-          
-        // }
-        console.log("status",this.item.status);
-        
 
-        
+        // }
+        console.log("status", this.item.status);
+
+
+
       } catch (error) {
         console.error('Error fetching item:', error);
       }
@@ -548,8 +553,36 @@ export default {
     },
     async submitEvaluation() {
       try {
+        const teachers = await this.$axios.$get('/users/teachers');
+
+        const teacherOptions = teachers.map(teacher => {
+          return {
+            id: teacher._id,
+            name: `${teacher.firstName} ${teacher.lastName}`
+          };
+        });
+
+        const inputOptions = {};
+        teacherOptions.forEach(option => {
+          inputOptions[option.id] = option.name;
+        });
+
+        // ใช้ SweetAlert2 เพื่อให้ผู้ใช้เลือกครู
+        const { value: selectedTeacherId } = await this.$swal.fire({
+          title: 'เลือกครู',
+          input: 'select',
+          inputOptions: inputOptions,
+          inputPlaceholder: 'เลือกครูที่ประเมิน',
+          showCancelButton: true,
+        });
+
+        // ถ้าผู้ใช้ไม่ได้เลือกครู ให้ยกเลิกการส่งฟอร์ม
+        if (!selectedTeacherId) {
+          return;
+        }
+
         const dataToSend = {
-          title:"แบบประเมินการปฎิบัติงานของแพทย์ตามโครงการเพิ่มพูนทักษะของเเพทย์สภา",
+          title: "แบบประเมินการปฎิบัติงานของแพทย์ตามโครงการเพิ่มพูนทักษะของเเพทย์สภา",
           prefix: this.generalData.prefix,
           firstName: this.generalData.name,
           lastName: this.generalData.lastname,
@@ -600,19 +633,19 @@ export default {
               score: this.evaluation.continuousLearning
             },
           ],
-          student:this.decodedToken.id,
+          student: this.decodedToken.id,
           report: this.note,
-          type: "medical"
+          type: "medical",
+          approver: selectedTeacherId
         };
         console.log("ข้อมูลที่ส่งไป", dataToSend);
-        // const response = await axios.post('http://localhost:8000/form/create', dataToSend);
         const response = await this.$axios.$post('/form/create', dataToSend);
         console.log(response)
         this.$swal.fire({
-            icon: 'success',
-            title: 'สำเร็จ',
-            text: 'การประเมินถูกส่งเรียบร้อยแล้ว!',
-          });
+          icon: 'success',
+          title: 'สำเร็จ',
+          text: 'การประเมินถูกส่งเรียบร้อยแล้ว!',
+        });
       } catch (error) {
         this.$swal.fire({
           icon: 'error',
@@ -623,6 +656,7 @@ export default {
     },
     async updateEvaluation() {
       try {
+
         const dataToSend = {
           prefix: this.generalData.prefix,
           firstName: this.generalData.name,
@@ -677,14 +711,14 @@ export default {
           report: this.note
         };
         console.log("ข้อมูลที่อัพเดตไป", dataToSend);
-        
+
         const response = await this.$axios.$put(`/form/${this.Id}?type=medical`, dataToSend);
         console.log(response)
         this.$swal.fire({
-            icon: 'success',
-            title: 'สำเร็จ',
-            text: 'การประเมินถูกอัพเดตเรียบร้อยแล้ว!',
-          });
+          icon: 'success',
+          title: 'สำเร็จ',
+          text: 'การประเมินถูกอัพเดตเรียบร้อยแล้ว!',
+        });
       } catch (error) {
         this.$swal.fire({
           icon: 'error',
@@ -712,7 +746,7 @@ export default {
     async saveEvaluation() {
       try {
         const dataToSend = {
-          status:"success",
+          status: "success",
           prefix: this.generalData.prefix,
           firstName: this.generalData.name,
           lastName: this.generalData.lastname,
@@ -766,15 +800,15 @@ export default {
           report: this.note
         };
         console.log("ข้อมูลที่อัพเดตไป", dataToSend);
-        
+
         // const response = await axios.patch(`http://localhost:8000/form/${this.Id}`, dataToSend);
         const response = await this.$axios.$patch(`/form/${this.Id}?type=medical`, dataToSend);
         console.log(response)
         this.$swal.fire({
-            icon: 'success',
-            title: 'สำเร็จ',
-            text: 'การประเมินถูกบันทึกเรียบร้อยแล้ว!',
-          });
+          icon: 'success',
+          title: 'สำเร็จ',
+          text: 'การประเมินถูกบันทึกเรียบร้อยแล้ว!',
+        });
       } catch (error) {
         this.$swal.fire({
           icon: 'error',
