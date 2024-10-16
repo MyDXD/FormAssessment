@@ -63,7 +63,7 @@
 import axios from 'axios';
 
 export default {
-    middleware: 'auth',
+    middleware: 'redirectToLogin',
     data() {
         return {
             search: '',

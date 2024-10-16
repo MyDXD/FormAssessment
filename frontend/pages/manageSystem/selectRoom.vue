@@ -349,9 +349,9 @@
 <script>
 // import axios from 'axios';
 // import Swal from 'sweetalert2';
-
+import { mapGetters } from 'vuex';
 export default {
-  middleware: 'auth',
+  middleware: 'redirectToLogin',
   data() {
     return {
       // ข้อมูลทั่วไป
@@ -407,10 +407,17 @@ export default {
       status:""
     };
   },
-  // created() {
-  //   this.getEvaluation()
-  // },
+  created() {
+    // this.getEvaluation()
+    this.$store.dispatch('decodeToken'); 
+    // console.log("token",decodeToken);
+    
+  },
   computed: {
+    ...mapGetters({
+      decodedToken: 'getDecodedToken'
+    }),
+
     generalDuration() {
       return this.calculateDuration(this.generalData.startDate, this.generalData.endDate);
     },
@@ -420,6 +427,9 @@ export default {
     },
   },
   watch: {
+    decodedToken(newVal) {
+      console.log('Decoded Token:', newVal);
+  },
     generalDuration(newVal) {
       this.generalData.durationDisplay = newVal;
     },
