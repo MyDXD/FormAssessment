@@ -537,6 +537,7 @@ export default {
     async submitEvaluation() {
       try {
         const dataToSend = {
+          title:"แบบประเมินการปฎิบัติงานของแพทย์ตามโครงการเพิ่มพูนทักษะของเเพทย์สภา",
           prefix: this.generalData.prefix,
           firstName: this.generalData.name,
           lastName: this.generalData.lastname,

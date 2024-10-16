@@ -29,7 +29,7 @@ export default {
       documents: [],
       totalDocuments: 0,
       page: 1,
-      limit: 10,
+      limit: 5,
       loading: false,
       headers: [
         { text: "ชื่อเอกสาร", value: "title" }, // Adjust to match your fields
