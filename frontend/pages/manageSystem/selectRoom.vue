@@ -600,6 +600,7 @@ export default {
               score: this.evaluation.continuousLearning
             },
           ],
+          student:this.decodedToken.id,
           report: this.note,
           type: "medical"
         };
