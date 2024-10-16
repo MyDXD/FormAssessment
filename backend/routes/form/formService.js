@@ -69,3 +69,15 @@ exports.sendFormById = async (formType, Id, updatedData) => {
     throw new Error("Error sending form by ID");
   }
 };
+
+// ฟังก์ชันค้นหาแบบฟอร์มที่ต้องอนุมัติโดย teacherId
+exports.getFormsForApproval = async (formType ,teacherId) => {
+  try {
+    const model = selectModel(formType); // เลือกโมเดลที่ถูกต้อง
+    const forms = await model.find({ approver: teacherId });
+    return forms; // คืนค่า forms ที่พบ
+  } catch (error) {
+    throw new Error('Error fetching forms for approval');
+  }
+};
+

@@ -1,19 +1,21 @@
-const formService = require('./formService');
+const formService = require("./formService");
 
 // ฟังก์ชันสำหรับสร้างแบบฟอร์ม
 exports.createForm = async (req, res) => {
   try {
     const form = await formService.createForm(req.body);
-    const { type } = req.body; // 
+    const { type } = req.body; //
     if (!type) {
       return res.status(400).json({
         message: "Error: form type is required",
       });
     }
 
-    res.status(201).json({ message: 'Form created successfully', data : form , type : type ,});
+    res
+      .status(201)
+      .json({ message: "Form created successfully", data: form, type: type });
   } catch (error) {
-    res.status(400).json({ error: 'Error creating form', details: error });
+    res.status(400).json({ error: "Error creating form", details: error });
   }
 };
 
@@ -27,12 +29,13 @@ exports.getForms = async (req, res) => {
       });
     }
     const forms = await formService.getForms(type);
-    res.status(200).json({data : forms});
+    res.status(200).json({ data: forms });
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching forms', details: error.message});
+    res
+      .status(500)
+      .json({ error: "Error fetching forms", details: error.message });
   }
 };
-
 
 // ฟังก์ชันสำหรับดึงแบบฟอร์มตาม id
 exports.getFormsById = async (req, res) => {
@@ -44,17 +47,19 @@ exports.getFormsById = async (req, res) => {
       });
     }
     const formId = req.params.id;
-    
-    const form = await formService.getFormById(type , formId);
-    
+
+    const form = await formService.getFormById(type, formId);
+
     if (form) {
-      res.status(200).json({data : form , type : type});
+      res.status(200).json({ data: form, type: type });
     } else {
-      res.status(404).json({ message: 'Form not found' });
+      res.status(404).json({ message: "Form not found" });
     }
   } catch (error) {
     // Error handling
-    res.status(500).json({ error: 'Error fetching form', details: error.message });
+    res
+      .status(500)
+      .json({ error: "Error fetching form", details: error.message });
   }
 };
 
@@ -70,16 +75,22 @@ exports.updateFormById = async (req, res) => {
     const formId = req.params.id;
     const updatedData = req.body; // ข้อมูลที่ต้องการอัปเดตส่งมาจาก request body
 
-    const updatedForm = await formService.updateFormById(type ,formId, updatedData);
+    const updatedForm = await formService.updateFormById(
+      type,
+      formId,
+      updatedData
+    );
 
     if (updatedForm) {
-      res.status(200).json({data : updatedForm, type : type});
+      res.status(200).json({ data: updatedForm, type: type });
     } else {
-      res.status(404).json({ message: 'Form not found' });
+      res.status(404).json({ message: "Form not found" });
     }
   } catch (error) {
     // Error handling
-    res.status(500).json({ error: 'Error updating form', details: error.message });
+    res
+      .status(500)
+      .json({ error: "Error updating form", details: error.message });
   }
 };
 
@@ -93,15 +104,47 @@ exports.sendFormById = async (req, res) => {
       });
     }
     const formId = req.params.id;
-    const updatedData = req.body; 
-    const sendForm = await formService.sendFormById(type ,formId, updatedData);
+    const updatedData = req.body;
+    const sendForm = await formService.sendFormById(type, formId, updatedData);
 
     if (sendForm) {
-      res.status(200).json({data : sendForm , type : type});
+      res.status(200).json({ data: sendForm, type: type });
     } else {
-      res.status(404).json({ message: 'Form not found' });
+      res.status(404).json({ message: "Form not found" });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Error updating form', details: error.message });
+    res
+      .status(500)
+      .json({ error: "Error updating form", details: error.message });
   }
 };
+
+// ฟังก์ชันดึงข้อมูลฟอร์มที่ teacher ต้องอนุมัติ
+exports.getFormsForApproval = async (req, res) => {
+  try {
+    
+    // ดึง type จาก query parameter
+    const { type } = req.query;
+    if (!type) {
+      return res.status(400).json({
+        message: "Error: form type is required",
+      });
+    }
+    const teacherId = req.params.id
+
+    // เรียกใช้ service เพื่อนำฟอร์มที่ต้องอนุมัติมาแสดง
+    const form = await formService.getFormsForApproval(type, teacherId);
+
+    if (!form) {
+      return res.status(404).json({ message: "Form not found or not for this teacher" });
+    }
+
+    // ส่งกลับข้อมูลฟอร์มที่ต้องอนุมัติ
+    res.status(200).json(form);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Error fetching forms", details: error.message });
+  }
+};
+
