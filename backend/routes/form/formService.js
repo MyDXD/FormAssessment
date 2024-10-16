@@ -4,14 +4,18 @@ const MedicalPerformanceForm = require("../../models/form/medicalPerformanceForm
 
 // ฟังก์ชันสำหรับเลือกโมเดลที่ถูกต้องตามประเภทของฟอร์ม
 const selectModel = (formType) => {
-  switch (formType) {
-    case "medical":
-      return MedicalPerformanceForm;
-    // กรณีที่เพิ่มฟอร์มอื่น
-    // case "document":
-    //   return DocumentForm;
-    default:
-      throw new Error("Unknown form type");
+  try {
+    switch (formType) {
+      case "medical":
+        return MedicalPerformanceForm;
+      // เพิ่มฟอร์มอื่นๆ
+      // case "document":
+      //   return DocumentForm;
+      default:
+        throw new Error("Unknown form type");
+    }
+  } catch (error) {
+    throw new Error(`Invalid form type: ${formType}. Please check the form type.`);
   }
 };
 

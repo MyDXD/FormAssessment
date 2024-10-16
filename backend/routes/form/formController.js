@@ -30,7 +30,7 @@ exports.getForms = async (req, res) => {
     const forms = await formService.getForms(type);
     res.status(200).json({data : forms});
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching forms', details: error.message ,type : type});
+    res.status(500).json({ error: 'Error fetching forms', details: error.message});
   }
 };
 
