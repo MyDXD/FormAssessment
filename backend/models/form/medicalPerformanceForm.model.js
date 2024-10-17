@@ -13,12 +13,18 @@ const medicalPerformanceSchema = new Schema(
       ref: "User",
       required: true,
     },
-    approver: [
+    approver: [ // ผู้ที่อนุมัติฟอร์ม
       {
-        type: Schema.Types.ObjectId, // ผู้ที่อนุมัติฟอร์ม
+        type: Schema.Types.ObjectId, 
         ref: "User",
       },
     ],
+    approvals: [ //  ผู้ที่อนุมัติแล้ว
+      { 
+        type: Schema.Types.ObjectId, 
+        ref: "Approval" 
+      }
+    ], 
     education: { type: String, required: true }, //สถาบันที่สำเร็จการศึกษา
     graduationYear: { type: String, required: true }, //ปีที่สำเร็จการศึกษา
     hospital: { type: String, required: true }, // ปฏิบัติงานโรงพยาบาล
@@ -66,7 +72,7 @@ const medicalPerformanceSchema = new Schema(
     //สถานะเอกสาร
     status: {
       type: String,
-      enum: ["new", "success"],
+      enum: ["new", "approved"],
       default: "new",
     },
     type: { type: String, required: true }, // ชนิดเอกสาร

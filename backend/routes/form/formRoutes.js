@@ -14,7 +14,10 @@ router.get('/pending-approval/:id', formController.getFormsForApproval);
 
 // แก้ไขฟอร์ม
 router.put('/:id', formController.updateFormById);
-router.patch('/:id', formController.sendFormById);
+// router.patch('/:id', formController.sendFormById);
+
+router.post('/approve/:formId/:teacherId', formController.approveForm);
+
 
 
 module.exports = router;

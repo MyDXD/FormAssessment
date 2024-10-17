@@ -148,3 +148,24 @@ exports.getFormsForApproval = async (req, res) => {
   }
 };
 
+exports.approveForm = async (req, res) => {
+  try {
+    const { type } = req.query;
+    if (!type) {
+      return res.status(400).json({
+        message: "Error: form type is required",
+      });
+    }
+
+    const formId = req.params.formId;
+    const teacherId = req.params.teacherId;
+    
+
+    // เรียกใช้ service เพื่ออนุมัติฟอร์ม
+    const form = await formService.approveForm(type ,formId, teacherId);
+
+    res.status(200).json({ message: "Form approved successfully", form });
+  } catch (error) {
+    res.status(500).json({ error: "Error approving form", details: error.message });
+  }
+};
