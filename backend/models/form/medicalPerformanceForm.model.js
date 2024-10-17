@@ -9,13 +9,13 @@ const medicalPerformanceSchema = new Schema(
     firstName: { type: String, required: true }, //ชื่อ
     lastName: { type: String, required: true }, //นามสกุล
     student: {
-      type: Schema.Types.ObjectId, // ลิงก์กับ student ที่ส่งฟอร์ม
+      type: Schema.Types.ObjectId, //student ที่ส่งฟอร์ม
       ref: "User",
       required: true,
     },
     approver: [
       {
-        type: Schema.Types.ObjectId, // ลิงก์กับ teacher ที่อนุมัติฟอร์ม
+        type: Schema.Types.ObjectId, // ผู้ที่อนุมัติฟอร์ม
         ref: "User",
       },
     ],
@@ -69,8 +69,6 @@ const medicalPerformanceSchema = new Schema(
       enum: ["new", "success"],
       default: "new",
     },
-  },
-  {
     type: { type: String, required: true }, // ชนิดเอกสาร
   },
 
