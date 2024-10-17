@@ -24,6 +24,18 @@
     "chunkName": "pages/test"
   },
   {
+    "name": "manageSystem-doc1",
+    "path": "/manageSystem/doc1",
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/doc1.vue",
+    "chunkName": "pages/manageSystem/doc1"
+  },
+  {
+    "name": "manageSystem-doc2",
+    "path": "/manageSystem/doc2",
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/doc2.vue",
+    "chunkName": "pages/manageSystem/doc2"
+  },
+  {
     "name": "manageSystem-doc3",
     "path": "/manageSystem/doc3",
     "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/doc3.vue",
@@ -52,18 +64,6 @@
     "path": "/manageSystem/selectDate",
     "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/selectDate.vue",
     "chunkName": "pages/manageSystem/selectDate"
-  },
-  {
-    "name": "manageSystem-selectEmp",
-    "path": "/manageSystem/selectEmp",
-    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/selectEmp.vue",
-    "chunkName": "pages/manageSystem/selectEmp"
-  },
-  {
-    "name": "manageSystem-selectRoom",
-    "path": "/manageSystem/selectRoom",
-    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/selectRoom.vue",
-    "chunkName": "pages/manageSystem/selectRoom"
   },
   {
     "name": "teacher-score",
