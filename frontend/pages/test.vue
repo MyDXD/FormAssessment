@@ -4,28 +4,20 @@
     <v-card-title>
       เอกสารที่รอ approve
       <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
+      <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
     </v-card-title>
 
     <!-- Data table to display documents -->
-    <v-data-table
-      :headers="headers"
-      :items="documents"
-      :items-per-page="10"
-      :search="search"
-      class="elevation-1"
-      :loading="loading"
-      @update:page="fetchDocuments"
-    >
+    <v-data-table :headers="headers" :items="documents" :items-per-page="10" :search="search" class="elevation-1 "
+      :loading="loading" @update:page="fetchDocuments">
       <template slot="item.actions" slot-scope="{ item }">
         <v-btn color="primary" @click="viewDocument(item)">
           ดูรายละเอียด
+        </v-btn>
+      </template>
+      <template slot="item.approve" slot-scope="{ item }">
+        <v-btn color="success" @click="approveDocument(item)">
+          Approve
         </v-btn>
       </template>
     </v-data-table>
@@ -38,8 +30,10 @@
           <div v-if="selectedDocument">
             <p><strong>Hospital Name:</strong> {{ selectedDocument.departmentInfo.details.hospitalName || 'N/A' }}</p>
             <p><strong>Bed Size:</strong> {{ selectedDocument.departmentInfo.details.bedSize || 'N/A' }}</p>
-            <p><strong>Elective Subject:</strong> {{ selectedDocument.departmentInfo.details.electiveSubject || 'N/A' }}</p>
-            <p><strong>Creator Name:</strong> {{ selectedDocument.prefix }}{{ selectedDocument.firstName }}{{ selectedDocument.lastName }}</p>
+            <p><strong>Elective Subject:</strong> {{ selectedDocument.departmentInfo.details.electiveSubject || 'N/A' }}
+            </p>
+            <p><strong>Creator Name:</strong> {{ selectedDocument.prefix }}{{ selectedDocument.firstName }}{{
+              selectedDocument.lastName }}</p>
             <p><strong>Education:</strong> {{ selectedDocument.education }}</p>
             <p><strong>Work Period:</strong> {{ selectedDocument.scheduleWork }}</p>
             <p><strong>Hospital:</strong> {{ selectedDocument.hospital }}</p>
@@ -53,6 +47,11 @@
             <p><strong>Without Leave:</strong> {{ selectedDocument.withoutLeave }}</p>
             <p><strong>Work Percentage:</strong> {{ selectedDocument.workPercentage }}%</p>
             <p><strong>Without Notification:</strong> {{ selectedDocument.withoutNotification }}</p>
+            <p><strong>status:</strong>
+  <span :class="selectedDocument.status === 'approved' ? 'approved-status' : 'not-approved-status'">
+    {{ selectedDocument.status === 'approved' ? selectedDocument.status : 'รออนุมัติ' }}
+  </span>
+</p>
             <p><strong>Updated At:</strong> {{ formatDate(selectedDocument.updatedAt) }}</p>
             <p><strong>Topics:</strong></p>
             <ul>
@@ -84,11 +83,13 @@ export default {
       dialog: false,
       selectedDocument: null,
       headers: [
-        { text: "ลำดับที่", value: "index" },
-        { text: "ชื่อเอกสาร", value: "title" },
-        { text: "วันที่สร้าง", value: "createdAt" },
-        { text: "ผู้สร้าง", value: "creator" },
-        { text: "การกระทำ", value: "actions", sortable: false }
+        { text: "ลำดับ", value: "index", sortable: false },
+        { text: "ชื่อเอกสาร", value: "title", sortable: false },
+        { text: "วันที่สร้าง", value: "createdAt", sortable: false },
+        { text: "ผู้สร้าง", value: "creator", sortable: false },
+        { text: "สถานะ", value: "status", sortable: false },
+        { text: "การกระทำ", value: "actions", sortable: false },
+        { text: "Approve", value: "approve", sortable: false }
       ],
     };
   },
@@ -120,6 +121,7 @@ export default {
             .map((doc, index) => ({
               ...doc,
               index: index + 1,
+              status: doc.status === "approved" ? `${doc.status}` : "รออนุมัติ",
               title: doc.title,
               creator: `${doc.prefix}${doc.firstName} ${doc.lastName}`,
               createdAt: this.formatDate(doc.createdAt),
@@ -135,6 +137,26 @@ export default {
         this.loading = false;
       }
     },
+    async approveDocument(document) {
+      try {
+        const documentId = document._id;
+        const userId = this.decodedToken.id;
+        const url = `http://localhost:8000/form/approve/${documentId}/${userId}?type=medical`;
+
+        const response = await axios.post(url);
+        console.log('Approval Response:', response);
+
+        if (response.status === 200) {
+          alert('Document approved successfully!');
+          this.fetchDocuments();
+        } else {
+          alert('Failed to approve document.');
+        }
+      } catch (error) {
+        console.error('Error approving document:', error);
+        alert('Error occurred while approving the document.');
+      }
+    },
     viewDocument(document) {
       this.selectedDocument = document;
       this.dialog = true;
@@ -148,3 +170,12 @@ export default {
 };
 </script>
 
+<style scoped>
+.approved-status {
+  color: green;
+}
+
+.not-approved-status {
+  color: red;
+}
+</style>
