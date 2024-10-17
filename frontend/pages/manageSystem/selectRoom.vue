@@ -340,10 +340,43 @@
     </v-col>
 </v-row> -->
     </v-form>
+    <v-dialog v-model="isDialogVisible" max-width="600px">
+      <v-card>
+        <v-card-title>
+          เลือกครู
+        </v-card-title>
+        <v-card-text>
+          <v-row>
+            <v-col
+              v-for="teacher in teachers"
+              :key="teacher._id"
+              cols="12"
+              sm="6"
+              md="4"
+            >
+              <v-card
+                :class="{ 'teacher-selected': selectedTeacherId === teacher._id }"
+                @click="selectedTeacherId = teacher._id"
+              >
+                <v-card-title>{{ teacher.firstName }} {{ teacher.lastName }}</v-card-title>
+                <v-card-subtitle>{{ teacher.email }}</v-card-subtitle>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" @click="submitEvaluation">
+            ยืนยัน
+          </v-btn>
+          <v-btn text @click="closeDialog">
+            ยกเลิก
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-row>
       <v-col cols="12" class="text-center">
-        <v-btn @click="submitEvaluation" color="primary">ส่งการประเมิน</v-btn>
-        <v-btn @click="getEvaluation" color="primary">Fetch Item</v-btn>
+        <v-btn @click="openTeacherSelection" color="primary">ส่งการประเมิน</v-btn>        <v-btn @click="getEvaluation" color="primary">Fetch Item</v-btn>
         <v-btn @click="updateEvaluation" color="primary">อัพเดตประเมิน</v-btn>
         <v-btn @click="confirmSaveEvaluation" color="primary">บันทึกเเบบประเมิณ</v-btn>
       </v-col>
@@ -409,7 +442,10 @@ export default {
       note: "",
       item: null,
       Id: "670f3baa642153c38d1bbc12",
-      status: ""
+      status: "",
+      teachers: [],
+      selectedTeacherId: null,
+      isDialogVisible:false
     };
   },
   created() {
@@ -443,9 +479,29 @@ export default {
     },
   },
   mounted() {
+    this.fetchTeachers();
     this.generalData.years = this.getYears();
   },
   methods: {
+    async fetchTeachers() {
+      try {
+        const response = await this.$axios.$get('http://localhost:8000/users/teachers');
+        this.teachers = response;
+      } catch (error) {
+        console.error('Error fetching teachers:', error);
+        this.$swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Unable to fetch teachers.',
+        });
+      }
+    },
+    openTeacherSelection() {
+      this.isDialogVisible = true; 
+    },
+    closeDialog() {
+      this.isDialogVisible = false; 
+    },
     async getEvaluation() {
       try {
         // const response = await axios.get(`http://localhost:8000/form/${this.Id}`);
@@ -553,33 +609,41 @@ export default {
     },
     async submitEvaluation() {
       try {
-        const teachers = await this.$axios.$get('/users/teachers');
+        // const teachers = await this.$axios.$get('/users/teachers');
 
-        const teacherOptions = teachers.map(teacher => {
-          return {
-            id: teacher._id,
-            name: `${teacher.firstName} ${teacher.lastName}`
-          };
+        // const teacherOptions = teachers.map(teacher => {
+        //   return {
+        //     id: teacher._id,
+        //     name: `${teacher.firstName} ${teacher.lastName}`
+        //   };
+        // });
+
+        // const inputOptions = {};
+        // teacherOptions.forEach(option => {
+        //   inputOptions[option.id] = option.name;
+        // });
+
+        // // ใช้ SweetAlert2 เพื่อให้ผู้ใช้เลือกครู
+        // const { value: selectedTeacherId } = await this.$swal.fire({
+        //   title: 'เลือกครู',
+        //   input: 'select',
+        //   inputOptions: inputOptions,
+        //   inputPlaceholder: 'เลือกครูที่ประเมิน',
+        //   showCancelButton: true,
+        // });
+
+        // // ถ้าผู้ใช้ไม่ได้เลือกครู ให้ยกเลิกการส่งฟอร์ม
+        // if (!selectedTeacherId) {
+        //   return;
+        // }
+        if (!this.selectedTeacherId) {
+        this.$swal.fire({
+          icon: 'warning',
+          title: 'Please select a teacher',
+          text: 'You need to select a teacher before submitting the evaluation.'
         });
-
-        const inputOptions = {};
-        teacherOptions.forEach(option => {
-          inputOptions[option.id] = option.name;
-        });
-
-        // ใช้ SweetAlert2 เพื่อให้ผู้ใช้เลือกครู
-        const { value: selectedTeacherId } = await this.$swal.fire({
-          title: 'เลือกครู',
-          input: 'select',
-          inputOptions: inputOptions,
-          inputPlaceholder: 'เลือกครูที่ประเมิน',
-          showCancelButton: true,
-        });
-
-        // ถ้าผู้ใช้ไม่ได้เลือกครู ให้ยกเลิกการส่งฟอร์ม
-        if (!selectedTeacherId) {
-          return;
-        }
+        return;
+      }
 
         const dataToSend = {
           title: "แบบประเมินการปฎิบัติงานของแพทย์ตามโครงการเพิ่มพูนทักษะของเเพทย์สภา",
@@ -636,11 +700,12 @@ export default {
           student: this.decodedToken.id,
           report: this.note,
           type: "medical",
-          approver: selectedTeacherId
+          approver: this.selectedTeacherId
         };
         console.log("ข้อมูลที่ส่งไป", dataToSend);
         const response = await this.$axios.$post('/form/create', dataToSend);
         console.log(response)
+        this.isDialogVisible = false;
         this.$swal.fire({
           icon: 'success',
           title: 'สำเร็จ',
