@@ -69,12 +69,19 @@
                   max-width="290px" min-width="290px">
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field v-bind="attrs" v-on="on" label="วันที่ให้ความเห็น" outlined dense
-                      :value="formattedDate" readonly append-icon="mdi mdi-calendar-blank-outline"></v-text-field>
+                      :value="formatGeneralDate(date)"
+                      readonly
+                      append-icon="mdi mdi-calendar-blank-outline"
+                      ></v-text-field>
                   </template>
-                  <v-date-picker v-model="date" locale="th" @input="menu = false"
-                    :first-day-of-week="1"></v-date-picker>
+                  <v-date-picker v-model="date" 
+                    locale="th"
+                    @input="menu = false"
+                    :first-day-of-week="1"
+                    ></v-date-picker>
                 </v-menu>
               </v-col>
+
             </v-row>
           </v-card-text>
         </v-card>
@@ -92,7 +99,8 @@
                 <tr>
                   <!-- คอลัมน์พฤติกรรม -->
                   <td v-if="item.behavior === 'อื่นๆ'" class="center-cell">
-                    <v-text-field class="center-cell" v-model="item.customBehavior" label="อื่นๆ ระบุ" outlined dense></v-text-field>
+                    <v-text-field class="center-cell" v-model="item.customBehavior" label="อื่นๆ ระบุ" outlined
+                      dense></v-text-field>
                   </td>
                   <td v-else>{{ item.behavior }}</td>
 
@@ -173,6 +181,8 @@
 export default {
   data() {
     return {
+      menu: false,
+      date: '', 
       evaluatorType: '',
       evaluatorName: '',
       otherEvaluator: '',
@@ -197,6 +207,13 @@ export default {
         { behavior: 'อื่นๆ', customBehavior: '', rating: null, notes: '', showNote: false },
       ],
     };
+  },
+  methods: {
+    formatGeneralDate(date) {
+      if (!date) return '';
+      const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+      return new Date(date).toLocaleDateString('th-TH', options);
+    },
   },
 };
 </script>
