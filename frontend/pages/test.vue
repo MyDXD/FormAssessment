@@ -148,6 +148,3 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Add any additional CSS here */
-</style>

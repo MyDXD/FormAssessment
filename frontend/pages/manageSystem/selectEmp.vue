@@ -3,7 +3,7 @@
     <!-- ส่วน Multisource Feedback -->
     <v-row>
       <v-col cols="12">
-        <v-card>
+        <v-card class="custom-card">
           <v-card-title>Multisource Feedback</v-card-title>
           <v-card-text>
             <v-row>
@@ -69,12 +69,19 @@
                   max-width="290px" min-width="290px">
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field v-bind="attrs" v-on="on" label="วันที่ให้ความเห็น" outlined dense
-                      :value="formattedDate" readonly append-icon="mdi mdi-calendar-blank-outline"></v-text-field>
+                      :value="formatGeneralDate(date)"
+                      readonly
+                      append-icon="mdi mdi-calendar-blank-outline"
+                      ></v-text-field>
                   </template>
-                  <v-date-picker v-model="date" locale="th" @input="menu = false"
-                    :first-day-of-week="1"></v-date-picker>
+                  <v-date-picker v-model="date" 
+                    locale="th"
+                    @input="menu = false"
+                    :first-day-of-week="1"
+                    ></v-date-picker>
                 </v-menu>
               </v-col>
+
             </v-row>
           </v-card-text>
         </v-card>
@@ -84,7 +91,7 @@
     <!-- ตารางพฤติกรรม -->
     <v-row>
       <v-col cols="12">
-        <v-card>
+        <v-card class="custom-card">
           <v-card-title>พฤติกรรม</v-card-title>
           <v-card-text>
             <v-data-table :headers="headers" :items="items" item-value="behavior" class="elevation-1">
@@ -92,7 +99,8 @@
                 <tr>
                   <!-- คอลัมน์พฤติกรรม -->
                   <td v-if="item.behavior === 'อื่นๆ'" class="center-cell">
-                    <v-text-field class="center-cell" v-model="item.customBehavior" label="อื่นๆ ระบุ" outlined dense></v-text-field>
+                    <v-text-field class="center-cell" v-model="item.customBehavior" label="อื่นๆ ระบุ" outlined
+                      dense></v-text-field>
                   </td>
                   <td v-else>{{ item.behavior }}</td>
 
@@ -139,7 +147,7 @@
     <!-- ข้อควรพัฒนา -->
     <v-row>
       <v-col cols="12">
-        <v-card>
+        <v-card class="custom-card">
           <v-card-title>ข้อควรพัฒนา</v-card-title>
           <v-card-text>
             <v-textarea label="รายละเอียด" rows="4" outlined></v-textarea>
@@ -149,9 +157,9 @@
     </v-row>
 
     <!-- ลายเซ็น -->
-    <v-row>
+    <!-- <v-row>
       <v-col cols="12">
-        <v-card>
+        <v-card class="custom-card">
           <v-card-title>ลายเซ็น</v-card-title>
           <v-card-text>
             <v-row>
@@ -165,7 +173,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-    </v-row>
+    </v-row> -->
   </v-container>
 </template>
 
@@ -173,6 +181,8 @@
 export default {
   data() {
     return {
+      menu: false,
+      date: '', 
       evaluatorType: '',
       evaluatorName: '',
       otherEvaluator: '',
@@ -198,6 +208,13 @@ export default {
       ],
     };
   },
+  methods: {
+    formatGeneralDate(date) {
+      if (!date) return '';
+      const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+      return new Date(date).toLocaleDateString('th-TH', options);
+    },
+  },
 };
 </script>
 
@@ -207,5 +224,12 @@ export default {
   justify-content: center;
   align-items: center;
   margin-top: 16px;
+}
+.custom-card {
+    border: 1px solid #ccc;
+    border-radius: 18px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
 }
 </style>

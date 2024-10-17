@@ -144,6 +144,8 @@ export default {
         { name: "ตารางรวมเอกสาร", to: "/manageSystem/selectCourse", icon: "mdi mdi-book-cog-outline" },
         { name: "ใบประเมิณ1", to: "/manageSystem/selectRoom", icon: "mdi mdi-google-classroom" },
         { name: "ใบประเมิณ2", to: "/manageSystem/selectEmp", icon: "mdi mdi-human-male" },
+        { name: "ใบประเมิณ3", to: "/manageSystem/doc3", icon: "mdi mdi-human-male" },
+        { name: "ใบประเมิณ4", to: "/manageSystem/doc4", icon: "mdi mdi-human-male" },
       ],
       items: [
         {
@@ -174,6 +176,8 @@ export default {
         "/": "ห้องเรียน",
         "/inspire": "ข้อสอบ",
         "/test": "approve doc",
+        "/manageSystem/doc4": "ใบประเมิณ4",
+        "/manageSystem/doc3": "ใบประเมิณ3",
         "/manageSystem/selectEmp": "ใบประเมิณ2",
         "/manageSystem/selectRoom": "ใบประเมิณ1",
         "/manageSystem/selectCourse": "ตารางรวมเอกสาร",
