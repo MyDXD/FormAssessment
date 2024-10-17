@@ -9,6 +9,8 @@ const _59d45e74 = () => interopDefault(import('../pages/login.vue' /* webpackChu
 const _4eecb5e8 = () => interopDefault(import('../pages/register.vue' /* webpackChunkName: "pages/register" */))
 const _6f345ad7 = () => interopDefault(import('../pages/test.vue' /* webpackChunkName: "pages/test" */))
 const _79f01b41 = () => interopDefault(import('../pages/manageSystem/doc3.vue' /* webpackChunkName: "pages/manageSystem/doc3" */))
+const _79fe32c2 = () => interopDefault(import('../pages/manageSystem/doc4.vue' /* webpackChunkName: "pages/manageSystem/doc4" */))
+const _7a0c4a43 = () => interopDefault(import('../pages/manageSystem/doc5.vue' /* webpackChunkName: "pages/manageSystem/doc5" */))
 const _11f07d06 = () => interopDefault(import('../pages/manageSystem/selectCourse.vue' /* webpackChunkName: "pages/manageSystem/selectCourse" */))
 const _7bff4be0 = () => interopDefault(import('../pages/manageSystem/selectDate.vue' /* webpackChunkName: "pages/manageSystem/selectDate" */))
 const _68185756 = () => interopDefault(import('../pages/manageSystem/selectEmp.vue' /* webpackChunkName: "pages/manageSystem/selectEmp" */))
@@ -48,6 +50,14 @@ export const routerOptions = {
     path: "/manageSystem/doc3",
     component: _79f01b41,
     name: "manageSystem-doc3"
+  }, {
+    path: "/manageSystem/doc4",
+    component: _79fe32c2,
+    name: "manageSystem-doc4"
+  }, {
+    path: "/manageSystem/doc5",
+    component: _7a0c4a43,
+    name: "manageSystem-doc5"
   }, {
     path: "/manageSystem/selectCourse",
     component: _11f07d06,

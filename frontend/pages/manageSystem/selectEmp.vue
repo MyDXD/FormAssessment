@@ -3,7 +3,7 @@
     <!-- ส่วน Multisource Feedback -->
     <v-row>
       <v-col cols="12">
-        <v-card>
+        <v-card class="custom-card">
           <v-card-title>Multisource Feedback</v-card-title>
           <v-card-text>
             <v-row>
@@ -91,7 +91,7 @@
     <!-- ตารางพฤติกรรม -->
     <v-row>
       <v-col cols="12">
-        <v-card>
+        <v-card class="custom-card">
           <v-card-title>พฤติกรรม</v-card-title>
           <v-card-text>
             <v-data-table :headers="headers" :items="items" item-value="behavior" class="elevation-1">
@@ -147,7 +147,7 @@
     <!-- ข้อควรพัฒนา -->
     <v-row>
       <v-col cols="12">
-        <v-card>
+        <v-card class="custom-card">
           <v-card-title>ข้อควรพัฒนา</v-card-title>
           <v-card-text>
             <v-textarea label="รายละเอียด" rows="4" outlined></v-textarea>
@@ -157,9 +157,9 @@
     </v-row>
 
     <!-- ลายเซ็น -->
-    <v-row>
+    <!-- <v-row>
       <v-col cols="12">
-        <v-card>
+        <v-card class="custom-card">
           <v-card-title>ลายเซ็น</v-card-title>
           <v-card-text>
             <v-row>
@@ -173,7 +173,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-    </v-row>
+    </v-row> -->
   </v-container>
 </template>
 
@@ -224,5 +224,12 @@ export default {
   justify-content: center;
   align-items: center;
   margin-top: 16px;
+}
+.custom-card {
+    border: 1px solid #ccc;
+    border-radius: 18px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
 }
 </style>

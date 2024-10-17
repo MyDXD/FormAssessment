@@ -30,6 +30,18 @@
     "chunkName": "pages/manageSystem/doc3"
   },
   {
+    "name": "manageSystem-doc4",
+    "path": "/manageSystem/doc4",
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/doc4.vue",
+    "chunkName": "pages/manageSystem/doc4"
+  },
+  {
+    "name": "manageSystem-doc5",
+    "path": "/manageSystem/doc5",
+    "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/doc5.vue",
+    "chunkName": "pages/manageSystem/doc5"
+  },
+  {
     "name": "manageSystem-selectCourse",
     "path": "/manageSystem/selectCourse",
     "component": "/Users/satapat/Documents/GitHub/FormAssessment/frontend/pages/manageSystem/selectCourse.vue",
