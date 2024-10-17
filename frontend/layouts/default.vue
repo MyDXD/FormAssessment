@@ -158,7 +158,7 @@ export default {
         },
         {
           icon: "mdi mdi-file-document-multiple-outline",
-          title: "ผลสอบ",
+          title: "approve",
           to: "/test",
         },
       ],
@@ -173,7 +173,7 @@ export default {
       const titleMap = {
         "/": "ห้องเรียน",
         "/inspire": "ข้อสอบ",
-        "/test": "ผลสอบ",
+        "/test": "approve doc",
         "/manageSystem/selectEmp": "ใบประเมิณ2",
         "/manageSystem/selectRoom": "ใบประเมิณ1",
         "/manageSystem/selectCourse": "ตารางรวมเอกสาร",

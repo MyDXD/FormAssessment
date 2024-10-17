@@ -469,7 +469,7 @@ export default {
   },
   watch: {
     decodedToken(newVal) {
-      console.log('Decoded Token:', newVal);
+      // console.log('Decoded Token:', newVal);
     },
     generalDuration(newVal) {
       this.generalData.durationDisplay = newVal;
