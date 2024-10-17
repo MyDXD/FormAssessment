@@ -1,8 +1,8 @@
 <template>
     <v-container>
         <div style="text-align: center;">
-            <h1>แบบประเมิณทักษะทางหัตถการสำหรับเเพทย์เพิ่มพูนทักษะ</h1><br>
-            <h1>Direct observation of procedural skills (DOPS)</h1>
+            <h2>แบบประเมิณทักษะทางหัตถการสำหรับเเพทย์เพิ่มพูนทักษะ</h2><br>
+            <h2>Direct observation of procedural skills (DOPS)</h2>
         </div>
         <v-form ref="dopsForm" v-model="isValid" @submit.prevent="submitForm">
             <v-card class="custom-card">

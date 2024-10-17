@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>แบบประเมินการปฎิบัติงานของแพทย์ตามโครงการเพิ่มพูนทักษะของเเพทย์สภา</h1>
+    <h2 style="text-align: center;">แบบประเมินการปฎิบัติงานของแพทย์ตามโครงการเพิ่มพูนทักษะของเเพทย์สภา</h2>
     <v-card class="custom-card">
-      <h2>ข้อมูลทั่วไป</h2>
+      <h3>ข้อมูลทั่วไป</h3>
       <v-form>
         <v-row>
           <!-- Prefix Radio Group -->
@@ -85,7 +85,7 @@
 
     <!-- กลุ่มงาน -->
     <v-card class="custom-card">
-      <h2>กลุ่มงาน</h2>
+      <h3>กลุ่มงาน</h3>
       <v-row>
         <v-radio-group v-model="groupWork.department" row>
           <v-col cols="12" md="2">
