@@ -67,7 +67,7 @@ export default {
                 // localStorage.setItem('Id', id);
                 console.log(response);
                 this.$store.commit('auth/login');
-                this.$router.push('/manageSystem/selectRoom');
+                this.$router.push('/manageSystem/doc1');
             } catch (error) {
                 console.error(error.message);
                 this.$swal.fire({
