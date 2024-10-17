@@ -63,6 +63,31 @@ exports.getFormsById = async (req, res) => {
   }
 };
 
+// ฟังก์ชันสำหรับดึงแบบฟอร์ม ของ student
+exports.getFormsByStudentId = async (req, res) => {
+  try {
+    const { type } = req.query; // รับประเภทฟอร์มจาก query parameter
+    if (!type) {
+      return res.status(400).json({
+        message: "Error: form type is required",
+      });
+    }
+    const studentId = req.params.studentId;
+    const form = await formService.getFormsByStudentId(type, studentId);
+
+    if (form) {
+      res.status(200).json({ data: form, type: type });
+    } else {
+      res.status(404).json({ message: "Form not found" });
+    }
+
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Error fetching form", details: error.message });
+  }
+};
+
 // ฟังก์ชันสำหรับอัปเดตแบบฟอร์มตาม id
 exports.updateFormById = async (req, res) => {
   try {

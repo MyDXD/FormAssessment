@@ -52,6 +52,17 @@ exports.getFormById = async (formType, Id) => {
   }
 };
 
+// ดึงข้อมูลแบบฟอร์มตาม id และประเภทฟอร์ม
+exports.getFormsByStudentId = async (formType, studentId) => {
+  try {
+    const model = selectModel(formType); // เลือกโมเดลที่ถูกต้อง
+    const form = await model.find({student : studentId});
+    return form;
+  } catch (error) {
+    throw new Error("Error fetching form by ID");
+  }
+};
+
 // อัปเดตข้อมูลแบบฟอร์มตาม id และประเภทฟอร์ม
 exports.updateFormById = async (formType, Id, updatedData) => {
   try {
