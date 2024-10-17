@@ -8,7 +8,7 @@ const secret = "mysecret"
 
 router.post("/register", async (req, res) => {
   try {
-    const { firstName, lastName, email, password} = req.body;
+    const { firstName, lastName, email, password, role , hospital,  province ,graduationYear ,education} = req.body;
 
     const hashPassword = await bcrypt.hash(password, 10);
     const user = new userSchema({
@@ -16,6 +16,11 @@ router.post("/register", async (req, res) => {
         lastName,
         email,
         password : hashPassword,
+        role,
+        hospital,
+        province,
+        graduationYear,
+        education
     });
     await user.save();
     res
@@ -49,7 +54,7 @@ router.post("/login", async (req, res) => {
 
     // สร้าง JWT token
     const token = jwt.sign(
-      {  id: user._id, role: user.role, firstName: user.firstName, lastName : user.lastName },
+      { userdata : user },
       secret,
       {
         expiresIn: "3d",

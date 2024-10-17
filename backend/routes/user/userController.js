@@ -14,3 +14,18 @@ exports.getTeachers = async (req, res) => {
     return res.status(500).json({ error: "Error fetching teachers", details: error.message });
   }
 };
+
+exports.getUserById = async (req, res) => {
+  try {
+    const userId = req.params.userid
+    const userDetail = await userService.getUserById(userId); // เรียกใช้ service
+
+    if (!userDetail || userDetail.length === 0) {
+      return res.status(404).json({ error: "No user detail found" });
+    }
+
+    return res.status(200).json({data : userDetail});
+  } catch (error) {
+    return res.status(500).json({ error: "Error fetching teachers", details: error.message });
+  }
+};

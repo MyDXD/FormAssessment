@@ -25,11 +25,11 @@ const selectModel = (formType) => {
 exports.createForm = async (formData) => {
   const model = selectModel(formData.type); // ตรวจสอบประเภทฟอร์มจากฟิลด์ `type`
 
-  const totalScore = formData.topics.reduce(
-    (sum, topic) => sum + topic.score,
-    0
-  );
-  formData.total = totalScore;
+  // const totalScore = formData.topics.reduce(
+  //   (sum, topic) => sum + topic.score,
+  //   0
+  // );
+  // formData.total = totalScore;
 
   const form = new model(formData);
   return await form.save();

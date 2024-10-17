@@ -4,6 +4,7 @@ const userController = require('./userController'); // นำเข้า contro
 
 // เส้นทางสำหรับการดึงข้อมูลผู้ใช้ที่มี role เป็น teacher
 router.get('/teachers', userController.getTeachers);
+router.get('/:userid', userController.getUserById);
 
 
 module.exports = router;

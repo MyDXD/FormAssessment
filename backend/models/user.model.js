@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    education: { type: String, required: true }, //สถาบันที่สำเร็จการศึกษา
+    graduationYear: { type: String, required: true }, //ปีที่สำเร็จการศึกษา
+    hospital: { type: String, required: true }, // ปฏิบัติงานโรงพยาบาล
+    province: { type: String, required: true }, // จังหวัด
     email: {
       type: String,
       required: true,
