@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
@@ -63,9 +64,10 @@ export default {
         firstName: '',
         lastName: '',
         email: '',
-        picture: ''
+        picture: '',
+        _id: '',
       },
-      teachers: [],
+      teachers: {},
       teacherDialog: false,
       selectedDoc: null,
     };
@@ -73,12 +75,25 @@ export default {
   async mounted() {
     this.getUserProfile();
   },
+  computed: {
+    ...mapGetters({
+      decodedToken: 'getDecodedToken'
+    })
+  },
+  created() {
+    this.$store.dispatch('decodeToken'); 
+  },
   methods: {
     // โหลดโปรไฟล์ผู้ใช้
     async getUserProfile() {
       try {
-        const response = await this.$axios.$get('http://localhost:8000/users/profile');
-        this.userProfile = response;
+        this.id = this.decodedToken.userdata._id
+        console.log("token",this.decodedToken);
+        
+        const response = await this.$axios.$get(`/users/${this.id}`);
+        this.userProfile = response.data;
+        console.log(this.userProfile);
+        
       } catch (error) {
         this.$swal.fire('Error', 'ไม่สามารถโหลดโปรไฟล์ผู้ใช้ได้', 'error');
       }
@@ -89,8 +104,10 @@ export default {
       this.selectedDoc = doc;
       this.teacherDialog = true;
       try {
-        const response = await this.$axios.$get('http://localhost:8000/users/teachers');
+        const response = await this.$axios.$get('/users/teachers');
         this.teachers = response;
+        console.log("teacher",this.teachers);
+        
       } catch (error) {
         this.$swal.fire('Error', 'ไม่สามารถโหลดรายชื่ออาจารย์ได้', 'error');
       }
@@ -100,11 +117,16 @@ export default {
     async assignTeacher(teacher) {
       this.teacherDialog = false;
       const payload = {
-        _id: teacher._id,
-        prefix: this.userProfile.prefix,
+        title: "แบบประเมินการปฎิบัติงานของแพทย์ตามโครงการเพิ่มพูนทักษะของเเพทย์สภา",
+        student: this.userProfile._id,
+        prefix: "นพ.",
         firstName: this.userProfile.firstName,
         lastName: this.userProfile.lastName,
+        approver:teacher._id,
+        type:"medical",
       };
+      console.log("load",payload);
+      
       try {
         const response = await this.$axios.$post('http://localhost:8000/form/create', payload);
         this.$swal.fire('Success', 'ส่งข้อมูลสำเร็จ', 'success');

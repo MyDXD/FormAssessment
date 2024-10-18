@@ -111,7 +111,7 @@ export default {
     async fetchDocuments() {
       this.loading = true;
       try {
-        const id = this.decodedToken.id;
+        const id = this.decodedToken.userdata._id;
         const res = await this.$axios.$get(`/form/pending-approval/${id}?type=medical`);
         console.log('API Response:', res);
 
@@ -140,7 +140,7 @@ export default {
     async approveDocument(document) {
       try {
         const documentId = document._id;
-        const userId = this.decodedToken.id;
+        const userId = this.decodedToken.userdata._id;
         const url = `http://localhost:8000/form/approve/${documentId}/${userId}?type=medical`;
 
         const response = await axios.post(url);
