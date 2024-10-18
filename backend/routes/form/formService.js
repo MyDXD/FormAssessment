@@ -24,13 +24,6 @@ const selectModel = (formType) => {
 // สร้างแบบฟอร์มใหม่
 exports.createForm = async (formData) => {
   const model = selectModel(formData.type); // ตรวจสอบประเภทฟอร์มจากฟิลด์ `type`
-
-  // const totalScore = formData.topics.reduce(
-  //   (sum, topic) => sum + topic.score,
-  //   0
-  // );
-  // formData.total = totalScore;
-
   const form = new model(formData);
   return await form.save();
 };
@@ -56,7 +49,7 @@ exports.getFormById = async (formType, Id) => {
 exports.getFormsByStudentId = async (formType, studentId) => {
   try {
     const model = selectModel(formType); // เลือกโมเดลที่ถูกต้อง
-    const form = await model.find({student : studentId});
+    const form = await model.find({ student: studentId });
     return form;
   } catch (error) {
     throw new Error("Error fetching form by ID");
@@ -64,12 +57,25 @@ exports.getFormsByStudentId = async (formType, studentId) => {
 };
 
 // อัปเดตข้อมูลแบบฟอร์มตาม id และประเภทฟอร์ม
-exports.updateFormById = async (formType, Id, updatedData) => {
+exports.updateFormById = async (formType, formId, updatedData, teacherId) => {
   try {
     const model = selectModel(formType); // เลือกโมเดลที่ถูกต้อง
-    const updatedForm = await model.findByIdAndUpdate(Id, updatedData, {
+    const form = await model.findOne({ _id: formId, approver: teacherId });
+    if (!form) {
+      throw new Error(
+        "Form not found or you do not have permission to update this form."
+      );
+    }
+    const updatedForm = await model.findByIdAndUpdate(formId, updatedData, {
       new: true,
     });
+    const totalScore = updatedForm.topics.reduce(
+      (sum, topic) => sum + topic.score,
+      0
+    );
+    updatedForm.total = totalScore;
+
+    await updatedForm.save();
     return updatedForm;
   } catch (error) {
     throw new Error("Error updating form by ID");
@@ -77,10 +83,18 @@ exports.updateFormById = async (formType, Id, updatedData) => {
 };
 
 // อัปเดตข้อมูลแบบฟอร์ม status success ตาม id และประเภทฟอร์ม
-exports.sendFormById = async (formType, Id, updatedData) => {
+exports.sendFormById = async (formType, formId, updatedData , teacherId) => {
   try {
     const model = selectModel(formType); // เลือกโมเดลที่ถูกต้อง
-    const updatedForm = await model.findByIdAndUpdate(Id, updatedData, {
+
+    const form = await model.findOne({ _id: formId, approver: teacherId });
+    if (!form) {
+      throw new Error(
+        "Form not found or you do not have permission to update this form."
+      );
+    }
+
+    const updatedForm = await model.findByIdAndUpdate(formId, updatedData, {
       new: true,
     });
     return updatedForm;
@@ -100,6 +114,19 @@ exports.getFormsForApproval = async (formType, teacherId) => {
   }
 };
 
+// ฟังก์ชันค้นหาแบบฟอร์มที่ต้องอนุมัติโดย teacherId เฉพาะใบที่เลือก
+exports.getFormsForApprovalByIdForm = async (formType, teacherId, formId) => {
+  try {
+    console.log("teacherId", teacherId);
+    console.log("formId", formId);
+    const model = selectModel(formType); // เลือกโมเดลที่ถูกต้อง
+    const forms = await model.find({ approver: teacherId, _id: formId });
+    return forms; // คืนค่า forms ที่พบ
+  } catch (error) {
+    throw new Error("Error fetching forms for approval");
+  }
+};
+
 // ฟังก์ชันอนุมัติฟอร์มที่ได้รับมอบหมาย
 exports.approveForm = async (formType, formId, teacherId) => {
   try {
@@ -112,18 +139,13 @@ exports.approveForm = async (formType, formId, teacherId) => {
     const teacherObjectId = new mongoose.Types.ObjectId(teacherId);
 
     // ตรวจสอบว่าผู้ใช้งานเป็นหนึ่งในผู้อนุมัติ
-
     const isApprover = form.approver.some((approver) =>
       approver.equals(teacherObjectId)
     );
 
-    console.log(isApprover);
-
     if (!isApprover) {
       throw new Error("You are not authorized to approve this form");
     }
-
-    console.log("ผ่าน");
 
     // ตรวจสอบว่าผู้อนุมัติคนนี้ได้อนุมัติไปแล้วหรือยัง
     const existingApproval = await Approval.findOne({

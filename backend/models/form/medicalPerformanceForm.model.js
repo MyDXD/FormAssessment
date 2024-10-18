@@ -75,7 +75,7 @@ const medicalPerformanceSchema = new Schema(
     //สถานะเอกสาร
     status: {
       type: String,
-      enum: ["new", "approved"],
+      enum: ["new","success","approved"],
       default: "new",
     },
     type: { type: String, required: true }, // ชนิดเอกสาร
